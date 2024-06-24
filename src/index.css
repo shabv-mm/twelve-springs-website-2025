@@ -1,0 +1,8 @@
+body{
+    margin: '0px !important';
+}
+@media (max-width: 1000px) {
+    .getintouchbtn {
+        display: none;
+    }
+}
