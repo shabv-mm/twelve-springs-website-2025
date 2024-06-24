@@ -290,6 +290,10 @@ const Contactus = () => {
                     fontWeight: "300"
 
                   },
+                  '& .MuiStepLabel-label.Mui-active': {
+                    color: '#fff',
+
+                  },
                   '& .Mui-completed .MuiStepLabel-label': {
                     color: '#fff',
                     fontFamily: "poppins",
