@@ -491,7 +491,7 @@ const Aboutus = () => {
                 </Typography>
               </Box>
             </Grid>
-
+{/* 
             <Grid
               item
               md={5}
@@ -511,7 +511,7 @@ const Aboutus = () => {
                   //   height: 500,
                 }}
               ></img>
-            </Grid>
+            </Grid> */}
 
             <Button
               variant="contained"
