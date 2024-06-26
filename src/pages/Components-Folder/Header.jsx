@@ -10,23 +10,18 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-// import { Link } from "react-scroll";
-
-import logo from "../../assets/mainlogo.svg";
-import logoImg from "../../assets/mainlogo.png";
-import buttonImg from "../../assets/button.svg";
 import { Link } from "react-router-dom";
 
+import logoImg from "../../assets/mainlogo.png";
+import buttonImg from "../../assets/button.svg";
+
 const Logo = styled("img")({
-  // height: 40,
   width: "170px",
-  // marginRight: 'auto',
 });
 
 const Header = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-  const isTab = useMediaQuery(theme.breakpoints.down("md"));
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleMenuClick = (event) => {
@@ -43,7 +38,6 @@ const Header = () => {
     { name: "Technologies", link: "/#technologies" },
     { name: "Products", link: "/#testimonials" },
     { name: "Company", link: "/#aboutus" },
-    // { name: "Blog", link: "blog" },
   ];
 
   return (
@@ -76,7 +70,9 @@ const Header = () => {
             gap: 2,
           }}
         >
-          <Logo src={logoImg} alt="Twelve Springs" />
+         <Link to="/">
+         <Logo src={logoImg} alt="Twelve Springs" />
+         </Link> 
           {isMobile && (
             <Box sx={{ borderRadius: 5 }}>
               <IconButton
@@ -88,16 +84,17 @@ const Header = () => {
                 <MenuIcon />
               </IconButton>
               <Menu
+              disableRestoreFocus
                 anchorEl={anchorEl}
                 open={Boolean(anchorEl)}
                 onClose={handleMenuClose}
               >
                 {menuItems.map((item) => (
-                  <Link
+                  <MenuItem
                     key={item.name}
+                    onClick={handleMenuClose}
+                    component={Link}
                     to={item.link}
-                    smooth={true}
-                    duration={500}
                     style={{
                       textDecoration: "none",
                       color: "inherit",
@@ -105,8 +102,8 @@ const Header = () => {
                       fontSize: "1.2rem",
                     }}
                   >
-                    <MenuItem onClick={handleMenuClose}>{item.name}</MenuItem>
-                  </Link>
+                    {item.name}
+                  </MenuItem>
                 ))}
               </Menu>
             </Box>
@@ -121,41 +118,38 @@ const Header = () => {
           }}
         >
           {menuItems.map((item) => (
-            <Link
+            <Button
               key={item.name}
+              component={Link}
               to={item.link}
-              smooth={true}
-              duration={1000}
-              style={{ textDecoration: "none" }}
+              sx={{ color: "#000", textTransform: "none" }}
             >
-              <Button sx={{ color: "#000", textTransform: "none" }}>
-                {item.name}
-              </Button>
-            </Link>
+              {item.name}
+            </Button>
           ))}
         </Box>
         {!isMobile && (
-          <Link to="/#contactus" smooth={true} duration={1000}>
-            <Button
-              className="getintouchbtn"
-              variant="contained"
-              sx={{
-                borderRadius: 0,
-                px: 3,
-                py: 1,
-                fontWeight: "400",
-                fontSize: { md: "10px", lg: "16px" },
-                fontFamily: "poppins",
-                // height: { md: 10 },
-                lineHeight: "24px",
-                textTransform: "capitalize",
-                backgroundColor: "black",
-              }}
-            // endIcon={!isTab && <img src={buttonImg} style={{ marginLeft: 5 }} />}
-            >
-              Get in Touch
-            </Button>
-          </Link>
+          <Button
+            component={Link}
+            to="/#contactus"
+            smooth={true}
+            duration={1000}
+            className="getintouchbtn"
+            variant="contained"
+            sx={{
+              borderRadius: 0,
+              px: 3,
+              py: 1,
+              fontWeight: "400",
+              fontSize: { md: "10px", lg: "16px" },
+              fontFamily: "poppins",
+              lineHeight: "24px",
+              textTransform: "capitalize",
+              backgroundColor: "black",
+            }}
+          >
+            Get in Touch
+          </Button>
         )}
       </Toolbar>
     </AppBar>
