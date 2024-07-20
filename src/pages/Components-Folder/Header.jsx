@@ -70,9 +70,9 @@ const Header = () => {
             gap: 2,
           }}
         >
-         <Link to="/">
-         <Logo src={logoImg} alt="Twelve Springs" />
-         </Link> 
+          <Link to="/">
+            <Logo src={logoImg} alt="Twelve Springs" />
+          </Link>
           {isMobile && (
             <Box sx={{ borderRadius: 5 }}>
               <IconButton
@@ -84,10 +84,10 @@ const Header = () => {
                 <MenuIcon />
               </IconButton>
               <Menu
-              disableRestoreFocus
                 anchorEl={anchorEl}
                 open={Boolean(anchorEl)}
                 onClose={handleMenuClose}
+                disableRestoreFocus
               >
                 {menuItems.map((item) => (
                   <MenuItem
@@ -95,10 +95,10 @@ const Header = () => {
                     onClick={handleMenuClose}
                     component={Link}
                     to={item.link}
-                    style={{
+                    sx={{
                       textDecoration: "none",
                       color: "inherit",
-                      fontFamily: "poppins",
+                      fontFamily: "Poppins",
                       fontSize: "1.2rem",
                     }}
                   >
@@ -122,7 +122,11 @@ const Header = () => {
               key={item.name}
               component={Link}
               to={item.link}
-              sx={{ color: "#000", textTransform: "none" }}
+              sx={{
+                color: "#000",
+                textTransform: "none",
+                fontFamily: "Poppins",
+              }}
             >
               {item.name}
             </Button>
@@ -132,20 +136,18 @@ const Header = () => {
           <Button
             component={Link}
             to="/#contactus"
-            smooth={true}
-            duration={1000}
-            className="getintouchbtn"
             variant="contained"
             sx={{
               borderRadius: 0,
               px: 3,
               py: 1,
-              fontWeight: "400",
+              fontWeight: 400,
               fontSize: { md: "10px", lg: "16px" },
-              fontFamily: "poppins",
+              fontFamily: "Poppins",
               lineHeight: "24px",
               textTransform: "capitalize",
               backgroundColor: "black",
+              color: "white",
             }}
           >
             Get in Touch
