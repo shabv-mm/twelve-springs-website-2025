@@ -17,7 +17,7 @@ import {
   MenuItem,
   InputLabel,
   FormControl,
-  Select
+  Select,
 } from "@mui/material";
 
 import SignupBottomLeft from "../../assets/Signup-bottomLeft.svg";
@@ -29,65 +29,70 @@ import msgText from "../../assets/message-text.svg";
 import category from "../../assets/category.svg";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/material.css";
-import { Controller, useForm } from 'react-hook-form';
-import * as Yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { Controller, useForm } from "react-hook-form";
+import * as Yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import StoreContext from "../../common/StoreContext";
-import api from '../../lib/api'
+import api from "../../lib/api";
 import ReCAPTCHA from "react-google-recaptcha";
 
 const steps = [
-  'Your Company Information',
-  'Project Information',
-  'Technology Information'
+  "Your Company Information",
+  "Project Information",
+  "Technology Information",
 ];
 
 const Contactus = () => {
-
   const [contactMethods, setContactMethods] = useState({
     phone: false,
     email: true,
   });
   const schema1 = Yup.object().shape({
-    name: Yup.string().required('Name is required'),
-    companyName: Yup.string().required('Company name is required'),
-    source: Yup.string().required('Source  is required'),
-    email: contactMethods.email === true ? Yup.string().email('Invalid email').required('Email is required') : null,
-    phone: contactMethods.phone === true ? Yup.string().required('Phone number is required').min(10, "Please enter 10 digits ") : null,
-
+    name: Yup.string().required("Name is required"),
+    companyName: Yup.string().required("Company name is required"),
+    source: Yup.string().required("Source  is required"),
+    email:
+      contactMethods.email === true
+        ? Yup.string().email("Invalid email").required("Email is required")
+        : null,
+    phone:
+      contactMethods.phone === true
+        ? Yup.string()
+            .required("Phone number is required")
+            .min(10, "Please enter 10 digits ")
+        : null,
   });
 
   const schema2 = Yup.object().shape({
     // projectTitle: Yup.string().required('Message is required'),
-    projectDescription: Yup.string().required('Project descripition is required'),
+    projectDescription: Yup.string().required(
+      "Project descripition is required"
+    ),
     // projectGoal: Yup.string().required('Target audiance is required'),
-    budget: Yup.number().typeError().required('Budget is required'),
+    budget: Yup.number().typeError().required("Budget is required"),
   });
 
   const schema3 = Yup.object().shape({
     // softwareType: Yup.array().min(1, "Required"),
-
   });
-  const { openToast } = useContext(StoreContext)
+  const { openToast } = useContext(StoreContext);
   const [recaptchaValue, setRecaptchaValue] = useState(null);
   const [activeStep, setActiveStep] = useState(0);
   const [contactMethodsApi, setContactMethodsApi] = useState(0);
 
-  console.log(contactMethods)
-
   const softwareOptions = [
-    'Software Architecture',
-    'Machine Learning & AI',
-    'Data Security Consultancy',
-    'Mobile Application',
-    'Web Application',
-    'UI/UX',
-    'IOT'
+    "Software Architecture",
+    "Machine Learning & AI",
+    "Data Security Consultancy",
+    "Mobile Application",
+    "Web Application",
+    "UI/UX",
+    "IOT",
   ];
-  const [softwareType, setSoftwareType] = useState([
-  ]);
+  const [softwareType, setSoftwareType] = useState([]);
   const {
     register,
+    setValue,
     handleSubmit,
     reset,
     watch,
@@ -113,24 +118,22 @@ const Contactus = () => {
   };
 
   const handleAdd = async (values) => {
-
-
     if (!recaptchaValue) {
       openToast("error", "Please complete the reCAPTCHA.");
       return;
     }
-    const newVal = [watch(useForm), watch(secondStep.name)]
+    const newVal = [watch(useForm), watch(secondStep.name)];
 
-    const method = contactMethods.phone && contactMethods.email
-      ? 'both'
-      : contactMethods.phone
-        ? 'phone'
+    const method =
+      contactMethods.phone && contactMethods.email
+        ? "both"
+        : contactMethods.phone
+        ? "phone"
         : contactMethods.email
-          ? 'email'
-          : '';
+        ? "email"
+        : "";
     try {
-      const response = await api.post('v1/auth/website-lead', {
-
+      const response = await api.post("v1/auth/website-lead", {
         recaptcha: recaptchaValue,
         contactMethods: method,
         name: watch("name"),
@@ -144,27 +147,23 @@ const Contactus = () => {
         projectDescription: secondStep.watch("projectDescription"),
         budget: secondStep.watch("budget"),
         softwareType: softwareType,
-
       });
       openToast("success", response.data.message);
-      reset(
-        {
-          name: "",
-          companyName: "",
-          email: "",
-          phone: "",
-          source: "",
-        }
-      );
-      secondStep.reset(
-        {
-          projectTitle: "",
-          projectDescription: "",
-          projectGoal: "",
-        }
-      )
-      setContactMethods({})
-      softwareType([])
+      setActiveStep(0);
+      reset({
+        name: "",
+        companyName: "",
+        email: "",
+        phone: "",
+        source: "",
+      });
+      secondStep.reset({
+        projectTitle: "",
+        projectDescription: "",
+        projectGoal: "",
+      });
+      setContactMethods({});
+      softwareType([]);
       setRecaptchaValue(null); // Reset reCAPTCHA
     } catch (error) {
       openToast("error", error.response.data.message);
@@ -179,7 +178,9 @@ const Contactus = () => {
   const handleSoftwareTypeChange = (event) => {
     const { name, checked } = event.target;
     setSoftwareType((prevState) =>
-      checked ? [...prevState, name] : prevState.filter((option) => option !== name)
+      checked
+        ? [...prevState, name]
+        : prevState.filter((option) => option !== name)
     );
   };
   const onRecaptchaChange = (value) => {
@@ -203,52 +204,57 @@ const Contactus = () => {
   };
 
   return (
-    
-    <Container sx={{ mt: 6 }} >
+    <Container sx={{ mt: 6 }}>
       <Grid container spacing={0} sx={{ position: "relative" }}>
-        
-      <Box sx={{ height: { md: 30, sm: 10 } }}></Box>
+        <Box sx={{ height: { md: 30, sm: 10 } }}></Box>
 
-     
-      <Typography
-        sx={{
-          fontWeight: "100",
-          textAlign: "center",
-          fontSize: { md: 48, xs: 30 },
-          fontFamily: "poppins",
-          //   lineHeight: "67.2px",
-          mb: 1,mx:"auto"
-        }}
-      >
-        {"Connect" + " "}
-        <span
-          style={{
-            fontWeight: "400",
-            // fontSize: { md: 48, xs: 30 },
+        <Typography
+          sx={{
+            fontWeight: "100",
+            textAlign: "center",
+            fontSize: { md: 48, xs: 30 },
             fontFamily: "poppins",
-            // lineHeight: "67.2px",
+            //   lineHeight: "67.2px",
+            mb: 1,
+            mx: "auto",
           }}
         >
-          with us{" "}
-        </span>
-        
-      </Typography>
+          {"Connect" + " "}
+          <span
+            style={{
+              fontWeight: "400",
+              // fontSize: { md: 48, xs: 30 },
+              fontFamily: "poppins",
+              // lineHeight: "67.2px",
+            }}
+          >
+            with us{" "}
+          </span>
+        </Typography>
         <Box
           component="img"
           src={decor7}
           alt="Bottom left image"
           sx={{
             position: "absolute",
-            top: 0,
+            top: 10,
             right: 0,
             height: "auto",
             width: {
               xs: "0px",
-              md: "60%",
+              md: "75%",
+            },
+            maxWidth: {
+              // md: "calc(100% - 70px)", // Adjust this value as necessary to ensure it stays within the black and blue box
             },
           }}
         />
-        <Grid item xs={12} md={8} sx={{ backgroundColor: "#1F1F1F", p: 6, pb: 25, }}>
+        <Grid
+          item
+          xs={12}
+          md={8}
+          sx={{ backgroundColor: "#1F1F1F", p: 6, pb: 25 }}
+        >
           <Box
             component="img"
             src={SignupBottomLeft}
@@ -270,69 +276,67 @@ const Contactus = () => {
             sx={{
               fontSize: "1.5rem",
               fontFamily: "Poppins",
-              color: "#ffff", mb: 4
+              color: "#ffff",
+              mb: 4,
             }}
           >
-          
-          Please fill in the form with your project details, and we'll arrange a free consultation call to discuss your needs and provide a quote.
+            Please fill in the form with your project details, and we'll arrange
+            a free consultation call to discuss your needs and provide a quote.
           </Typography>
           {/* Stepper */}
           <Stepper activeStep={activeStep} orientation="vertical">
             {steps.map((label, index) => (
               <Step key={label}>
-                <StepLabel sx={{
-                  color: '#fff',
-
-                  '& .MuiStepLabel-label': {
-                    color: '#fff',
-                    fontFamily: "poppins",
-                    fontSize: "1rem",
-                    fontWeight: "300"
-
-                  },
-                  '& .MuiStepLabel-label.Mui-active': {
-                    color: '#fff',
-
-                  },
-                  '& .Mui-completed .MuiStepLabel-label': {
-                    color: '#fff',
-                    fontFamily: "poppins",
-                    fontSize: "1rem",
-                    fontWeight: "300"
-                  },
-                  '& .Mui-active .MuiStepLabel-label': {
-                    color: '#fff',
-                    fontFamily: "poppins",
-                    fontSize: "1rem",
-                    fontWeight: "300"
-                  },
-                  '& .css-2fz61h-MuiStepLabel-label.Mui-active': {
-                    color: '#fff',
-                    fontFamily: "poppins",
-                    fontSize: "1rem",
-                    fontWeight: "300"
-                  },
-                  '& .css-2fz61h-MuiStepLabel-label.Mui-completed': {
-                    color: '#fff',
-                    fontFamily: "poppins",
-                    fontSize: "1rem",
-                    fontWeight: "300"
-                  },
-
-                }} >{label}</StepLabel>
+                <StepLabel
+                  sx={{
+                    color: "#fff",
+                    "& .MuiStepLabel-label": {
+                      color: "#fff !important", // Ensure high specificity
+                      fontFamily: "poppins !important",
+                      fontSize: "1rem !important",
+                      fontWeight: "300 !important",
+                    },
+                    "& .Mui-completed .MuiStepLabel-label": {
+                      color: "#fff !important",
+                      fontFamily: "poppins !important",
+                      fontSize: "1rem !important",
+                      fontWeight: "300 !important",
+                    },
+                    "& .Mui-active .MuiStepLabel-label": {
+                      color: "#fff !important",
+                      fontFamily: "poppins !important",
+                      fontSize: "1rem !important",
+                      fontWeight: "300 !important",
+                    },
+                    "& .css-2fz61h-MuiStepLabel-label.Mui-active": {
+                      color: "#fff !important",
+                      fontFamily: "poppins !important",
+                      fontSize: "1rem !important",
+                      fontWeight: "300 !important",
+                    },
+                    "& .css-2fz61h-MuiStepLabel-label.Mui-completed": {
+                      color: "#fff !important",
+                      fontFamily: "poppins !important",
+                      fontSize: "1rem !important",
+                      fontWeight: "300 !important",
+                    },
+                  }}
+                >
+                  {label}
+                </StepLabel>
                 <StepContent>
                   {index === 0 && (
                     <>
                       <TextField
-                        {...register('companyName')}
+                        {...register("companyName")}
                         InputProps={{
                           startAdornment: (
                             <InputAdornment
                               position="start"
                               sx={{
-                                position: 'absolute',
-                                top: '20px',
-                                left: '5px'
+                                position: "absolute",
+                                top: "20px",
+                                left: "10px",
                               }}
                             >
                               <img src={category} alt="Company name" />
@@ -352,24 +356,26 @@ const Contactus = () => {
                           },
                           "& .MuiInputBase-input": {
                             color: "white",
-                            paddingTop: '5px',
-                            paddingLeft: '40px',
-                            height: "35px"
+                            paddingTop: "5px",
+                            paddingLeft: "40px",
+                            height: "35px",
                           },
                         }}
                         error={!!errors.companyName}
-                        helperText={errors.companyName ? errors?.companyName?.message : ''}
+                        helperText={
+                          errors.companyName ? errors?.companyName?.message : ""
+                        }
                       />
                       <TextField
-                        {...register('name')}
+                        {...register("name")}
                         InputProps={{
                           startAdornment: (
                             <InputAdornment
                               position="start"
                               sx={{
-                                position: 'absolute',
-                                top: '20px',
-                                left: '5px'
+                                position: "absolute",
+                                top: "20px",
+                                left: "10px",
                               }}
                             >
                               <img src={userSignup} alt="user signup" />
@@ -389,16 +395,16 @@ const Contactus = () => {
                           },
                           "& .MuiInputBase-input": {
                             color: "white",
-                            paddingTop: '5px',
-                            paddingLeft: '40px',
-                            height: "35px"
+                            paddingTop: "5px",
+                            paddingLeft: "40px",
+                            height: "35px",
                           },
                         }}
                         error={!!errors.name}
-                        helperText={errors.name ? errors.name.message : ''}
+                        helperText={errors.name ? errors.name.message : ""}
                       />
                       {/* ---------- */}
-                      <Box sx={{ borderBottom: "1px solid grey", mb: 2 }} >
+                      <Box sx={{ borderBottom: "1px solid grey", mb: 2 }}>
                         <Typography
                           paragraph
                           width={"100%"}
@@ -407,7 +413,7 @@ const Contactus = () => {
                             fontFamily: "Poppins",
                             color: "#ffff",
                             mt: 4,
-                            mb: 1
+                            mb: 1,
                           }}
                         >
                           How did you hear about us?
@@ -424,14 +430,18 @@ const Contactus = () => {
                           Your Company Source
                         </InputLabel> */}
                         <Select
-                          {...register('source')}
+                          {...register("source")}
+                          value={watch("source")}
+                          onChange={(e) => {
+                            setValue("source", e.target.value);
+                          }}
                           startAdornment={
                             <InputAdornment
                               position="start"
                               sx={{
-                                position: 'absolute',
-                                top: '20px',
-                                left: '5px',
+                                position: "absolute",
+                                // top: "20px",
+                                left: "10px",
                               }}
                             >
                               <img src={category} alt="Company source" />
@@ -441,6 +451,8 @@ const Contactus = () => {
                           // inputProps={{ 'aria-label': 'Without label' }}
                           fullWidth
                           sx={{
+                            height: "45px",
+                            borderRadius: 0,
                             backgroundColor: "#303030",
                             opacity: "0.6",
                             "& .MuiOutlinedInput-root": {
@@ -450,23 +462,30 @@ const Contactus = () => {
                             },
                             "& .MuiInputBase-input": {
                               color: "white",
-                              paddingTop: '10px',
-                              paddingLeft: '30px',
-                              paddingBottom: '23x',
+                              // paddingTop: "10px",
+                              paddingLeft: "30px",
+                              paddingBottom: "23x",
                               minHeighteight: "20px",
                             },
                           }}
                           error={!!errors.source}
                         >
-                          <MenuItem value="" disabled>
+                          <MenuItem value="none" disabled>
                             <em>Select Source</em>
                           </MenuItem>
-                          <MenuItem value="search-engine">Search Engine (e.g., Google)</MenuItem>
-                          <MenuItem value="social-media">Social Media (e.g., Facebook, Twitter, Instagram)</MenuItem>
+                          <MenuItem value="search-engine">
+                            Search Engine (e.g., Google)
+                          </MenuItem>
+                          <MenuItem value="social-media">
+                            Social Media (e.g., Facebook, Twitter, Instagram)
+                          </MenuItem>
                           <MenuItem value="word">Word of Mouth</MenuItem>
-                          <MenuItem value="advert">Google/Online Advertisement</MenuItem>
-                          <MenuItem value="referral">Customer Referral</MenuItem>
-                          
+                          <MenuItem value="advert">
+                            Google/Online Advertisement
+                          </MenuItem>
+                          <MenuItem value="referral">
+                            Customer Referral
+                          </MenuItem>
                         </Select>
                         {/* {errors.source && (
                           <TextField
@@ -478,7 +497,7 @@ const Contactus = () => {
                           />
                         )} */}
                       </FormControl>
-                      <Box sx={{ borderBottom: "1px solid grey", mb: 2 }} >
+                      <Box sx={{ borderBottom: "1px solid grey", mb: 2 }}>
                         <Typography
                           paragraph
                           width={"100%"}
@@ -487,13 +506,13 @@ const Contactus = () => {
                             fontFamily: "Poppins",
                             color: "#ffff",
                             mt: 4,
-                            mb: 1
+                            mb: 1,
                           }}
                         >
                           How should we contact you?
                         </Typography>
                       </Box>
-                      <Box sx={{ mb: 2 }} >
+                      <Box sx={{ mb: 2 }}>
                         <FormControlLabel
                           control={
                             <Checkbox
@@ -503,7 +522,11 @@ const Contactus = () => {
                               sx={{ color: "#1565c0" }}
                             />
                           }
-                          label={<Typography sx={{ color: "#ffff" }}>Phone</Typography>}
+                          label={
+                            <Typography sx={{ color: "#ffff" }}>
+                              Phone
+                            </Typography>
+                          }
                         />
                         <FormControlLabel
                           control={
@@ -514,46 +537,55 @@ const Contactus = () => {
                               sx={{ color: "#1565c0" }}
                             />
                           }
-                          label={<Typography sx={{ color: "#ffff" }}>Email</Typography>}
+                          label={
+                            <Typography sx={{ color: "#ffff" }}>
+                              Email
+                            </Typography>
+                          }
                         />
-
-
                       </Box>
-                      {!Object.values(contactMethods).some(value => value === true) &&
-                        <Box sx={{ backgroundColor: "#303030", opacity: "0.6", }} >
-                          <Typography sx={{
-                            color: "#d32f2f",
-                            fontFamily: "Poppins",
-                            fontWeight: 600,
-                            fontSize: '1rem',
-                            lineHeight: '1.66',
-                            textAlign: 'left',
-                            paddingTop: '3px',
-                            marginRight: 0,
-                            marginBottom: '10px',
-                            marginLeft: 0,
-                            marginTop: 0,
-                          }} >
+                      {!Object.values(contactMethods).some(
+                        (value) => value === true
+                      ) && (
+                        <Box
+                          sx={{ backgroundColor: "#303030", opacity: "0.6" }}
+                        >
+                          <Typography
+                            sx={{
+                              color: "#d32f2f",
+                              fontFamily: "Poppins",
+                              fontWeight: 600,
+                              fontSize: "1rem",
+                              lineHeight: "1.66",
+                              textAlign: "left",
+                              paddingTop: "3px",
+                              marginRight: 0,
+                              marginBottom: "10px",
+                              marginLeft: 0,
+                              marginTop: 0,
+                            }}
+                          >
                             Please select alteast one
                           </Typography>
                         </Box>
-                      }
-                     
+                      )}
+
                       {contactMethods.phone && (
                         <>
                           <Controller
-                            {...register('phone')}
+                            {...register("phone")}
                             control={control}
                             render={({ field }) => (
-
                               <PhoneInput
                                 {...field}
-                                country={'gb'}
+                                country="gb"
                                 fullWidth
                                 onChange={(phone) => field.onChange(phone)}
                                 inputStyle={{
                                   width: "100%",
                                   height: "45px",
+                                  paddingLeft: "50px", // Adjust this based on flag icon width to align text
+                                  lineHeight: "45px",
                                   borderRadius: "0px",
                                   color: "white",
                                   backgroundColor: "#303030",
@@ -562,20 +594,25 @@ const Contactus = () => {
                                   borderTop: "none",
                                   borderLeft: "none",
                                   borderRight: "none",
-                                  borderBottom: errors?.phone ? "1px solid #d32f2f" : "transparent",
-                                  marginBottom: errors?.phone ? "0px" : "10px",
+                                  borderBottom: errors?.phone
+                                    ? "1px solid #d32f2f"
+                                    : "transparent",
+                                  // marginBottom: errors?.phone ? "0px" : "10px",
                                   boxShadow: "none",
-
                                 }}
                                 style={{}}
                                 onFocus={(e) => {
                                   e.target.style.borderTop = "none";
                                   e.target.style.borderLeft = "none";
                                   e.target.style.borderRight = "none";
-                                  e.target.style.borderBottom = errors.phone ? "2px solid #d32f2f" : "2px solid #1a73e8";
+                                  e.target.style.borderBottom = errors.phone
+                                    ? "2px solid #d32f2f"
+                                    : "2px solid #1a73e8";
                                 }}
                                 onBlur={(e) => {
-                                  e.target.style.borderBottom = errors.phone ? "1px solid #d32f2f" : "transparent";
+                                  e.target.style.borderBottom = errors.phone
+                                    ? "1px solid #d32f2f"
+                                    : "transparent";
                                 }}
                                 dropdownStyle={{
                                   backgroundColor: "white",
@@ -585,23 +622,27 @@ const Contactus = () => {
                                 }}
                                 specialLabel=""
                               />
-
                             )}
                           />
                           {errors.phone && (
-                            <Box sx={{ backgroundColor: "#303030", opacity: "0.6", }} >
+                            <Box
+                              sx={{
+                                backgroundColor: "#303030",
+                                opacity: "0.6",
+                              }}
+                            >
                               <Typography
                                 color="error"
                                 sx={{
                                   color: "#d32f2f",
                                   fontFamily: "Poppins",
                                   fontWeight: 400,
-                                  fontSize: '0.75rem',
-                                  lineHeight: '1.66',
-                                  textAlign: 'left',
-                                  paddingTop: '3px',
+                                  fontSize: "0.75rem",
+                                  lineHeight: "1.66",
+                                  textAlign: "left",
+                                  paddingTop: "3px",
                                   marginRight: 0,
-                                  marginBottom: '10px',
+                                  marginBottom: "10px",
                                   marginLeft: 0,
                                   marginTop: 0,
                                 }}
@@ -614,15 +655,15 @@ const Contactus = () => {
                       )}
                       {contactMethods.email && (
                         <TextField
-                          {...register('email')}
+                          {...register("email")}
                           InputProps={{
                             startAdornment: (
                               <InputAdornment
                                 position="start"
                                 sx={{
-                                  position: 'absolute',
-                                  top: '20px',
-                                  left: '10px'
+                                  position: "absolute",
+                                  // top: "20px",
+                                  left: "10px",
                                 }}
                               >
                                 <img src={smsTracking} alt="Email address" />
@@ -633,7 +674,7 @@ const Contactus = () => {
                           fullWidth
                           sx={{
                             backgroundColor: "#303030",
-                            mb: 1,
+                            my: 1.5,
                             opacity: "0.6",
                             "& .MuiOutlinedInput-root": {
                               borderRadius: "0px",
@@ -642,13 +683,13 @@ const Contactus = () => {
                             },
                             "& .MuiInputBase-input": {
                               color: "white",
-                              paddingTop: '5px',
-                              paddingLeft: '45px',
-                              height: "35px"
+                              paddingTop: "5px",
+                              paddingLeft: "40px",
+                              height: "35px",
                             },
                           }}
                           error={!!errors.email}
-                          helperText={errors.email ? errors.email.message : ''}
+                          helperText={errors.email ? errors.email.message : ""}
                         />
                       )}
                     </>
@@ -656,22 +697,22 @@ const Contactus = () => {
                   {index === 1 && (
                     <>
                       <TextField
-                        {...secondStep.register('projectTitle')}
+                        {...secondStep.register("projectTitle")}
                         InputProps={{
                           startAdornment: (
                             <InputAdornment
                               position="start"
                               sx={{
-                                position: 'absolute',
-                                top: '20px',
-                                left: '5px'
+                                position: "absolute",
+                                top: "20px",
+                                left: "10px",
                               }}
                             >
                               {/* <img src={userSignup} alt="user signup" />  */}
                               <Box
                                 component="img"
                                 src={msgText}
-                                alt='project title'
+                                alt="project title"
                                 sx={{
                                   height: "24px",
                                 }}
@@ -692,35 +733,38 @@ const Contactus = () => {
                           },
                           "& .MuiInputBase-input": {
                             color: "white",
-                            paddingTop: '5px',
-                            paddingLeft: '40px',
-                            height: "35px"
+                            paddingTop: "5px",
+                            paddingLeft: "40px",
+                            height: "35px",
                           },
                         }}
                         multiline
                         rows={3}
                         error={!!secondStep?.formState.errors.projectTitle}
-                        helperText={secondStep?.formState.errors.projectTitle ? secondStep?.formState.errors.projectTitle.message : ''}
-                      // helperText={secondStep?.formState.errors.projectTitle?.message}
+                        helperText={
+                          secondStep?.formState.errors.projectTitle
+                            ? secondStep?.formState.errors.projectTitle.message
+                            : ""
+                        }
+                        // helperText={secondStep?.formState.errors.projectTitle?.message}
                       />
                       <TextField
-                        {...secondStep.register('budget')}
+                        {...secondStep.register("budget")}
                         type="number"
                         InputProps={{
                           startAdornment: (
                             <InputAdornment
                               position="start"
                               sx={{
-                                position: 'absolute',
-                                top: '20px',
-                                left: '5px',
-
+                                position: "absolute",
+                                // top: "20px",
+                                left: "10px",
                               }}
                             >
                               <Box
                                 component="img"
                                 src={msgText}
-                                alt='goal'
+                                alt="goal"
                                 sx={{
                                   height: "24px",
                                 }}
@@ -739,23 +783,24 @@ const Contactus = () => {
                             color: "white",
                             fontFamily: "Poppins",
                             alignItems: "flex-start",
-                            paddingTop: '32px',
+                            paddingTop: "32px",
                           },
                           "& .MuiInputBase-input": {
                             color: "white",
-                            paddingTop: '10px',
-                            paddingBottom: '10px',
-                            paddingLeft: '40px',
-
+                            paddingTop: "10px",
+                            paddingBottom: "10px",
+                            paddingLeft: "40px",
                           },
                         }}
-
-                     
-                      error={!!secondStep?.formState.errors.budget}
-                      helperText={secondStep?.formState.errors.budget ? "Budget is required" : ''}
-                    />
+                        error={!!secondStep?.formState.errors.budget}
+                        helperText={
+                          secondStep?.formState.errors.budget
+                            ? "Budget is required"
+                            : ""
+                        }
+                      />
                       <TextField
-                        {...secondStep.register('projectGoal')}
+                        {...secondStep.register("projectGoal")}
                         multiline
                         rows={3}
                         InputProps={{
@@ -763,16 +808,15 @@ const Contactus = () => {
                             <InputAdornment
                               position="start"
                               sx={{
-                                position: 'absolute',
-                                top: '20px',
-                                left: '5px',
-
+                                position: "absolute",
+                                top: "20px",
+                                left: "10px",
                               }}
                             >
                               <Box
                                 component="img"
                                 src={msgText}
-                                alt='goal'
+                                alt="goal"
                                 sx={{
                                   height: "24px",
                                 }}
@@ -791,20 +835,23 @@ const Contactus = () => {
                             color: "white",
                             fontFamily: "Poppins",
                             alignItems: "flex-start",
-                            paddingTop: '32px',
+                            paddingTop: "32px",
                           },
                           "& .MuiInputBase-input": {
                             color: "white",
-                            paddingTop: '5px',
-                            paddingLeft: '40px',
+                            paddingTop: "5px",
+                            paddingLeft: "40px",
                           },
                         }}
-
                         error={!!secondStep?.formState.errors.projectGoal}
-                        helperText={secondStep?.formState.errors.projectGoal ? secondStep?.formState.errors.projectGoal.message : ''}
+                        helperText={
+                          secondStep?.formState.errors.projectGoal
+                            ? secondStep?.formState.errors.projectGoal.message
+                            : ""
+                        }
                       />
                       <TextField
-                        {...secondStep.register('projectDescription')}
+                        {...secondStep.register("projectDescription")}
                         InputProps={{
                           inputComponent: TextareaAutosize,
                           inputProps: {
@@ -815,15 +862,15 @@ const Contactus = () => {
                             <InputAdornment
                               position="start"
                               sx={{
-                                position: 'absolute',
-                                top: '20px',
-                                left: '5px'
+                                position: "absolute",
+                                top: "20px",
+                                left: "10px",
                               }}
                             >
                               <Box
                                 component="img"
                                 src={msgText}
-                                alt='projectDescription'
+                                alt="projectDescription"
                                 sx={{
                                   height: "24px",
                                 }}
@@ -831,7 +878,6 @@ const Contactus = () => {
                             </InputAdornment>
                           ),
                         }}
-
                         placeholder="Project Description"
                         fullWidth
                         sx={{
@@ -842,25 +888,29 @@ const Contactus = () => {
                             color: "white",
                             fontFamily: "Poppins",
                             alignItems: "flex-start",
-                            paddingTop: '32px',
+                            paddingTop: "32px",
                           },
                           "& .MuiInputBase-input": {
                             color: "white",
-                            paddingTop: '5px',
-                            paddingLeft: '40px',
+                            paddingTop: "8px",
+                            paddingLeft: "40px",
                           },
                         }}
-
-                        error={!!secondStep?.formState.errors.projectDescription}
-                        helperText={secondStep?.formState.errors.projectDescription ? secondStep?.formState.errors.projectDescription.message : ''}
+                        error={
+                          !!secondStep?.formState.errors.projectDescription
+                        }
+                        helperText={
+                          secondStep?.formState.errors.projectDescription
+                            ? secondStep?.formState.errors.projectDescription
+                                .message
+                            : ""
+                        }
                       />
-
-
                     </>
                   )}
                   {index === 2 && (
                     <>
-                      <Box sx={{ borderBottom: "1px solid grey", mb: 2 }} >
+                      <Box sx={{ borderBottom: "1px solid grey", mb: 2 }}>
                         <Typography
                           paragraph
                           width={"100%"}
@@ -869,14 +919,14 @@ const Contactus = () => {
                             fontFamily: "Poppins",
                             color: "#ffff",
                             mt: 2,
-                            mb: 1
+                            mb: 1,
                           }}
                         >
                           What type of software do you want to build?
                         </Typography>
                       </Box>
                       <Grid container spacing={2}>
-                        {softwareOptions.map(option => (
+                        {softwareOptions.map((option) => (
                           <Grid item xs={12} md={6} key={option}>
                             <FormControlLabel
                               {...thirdStep.register("softwareType")}
@@ -889,7 +939,11 @@ const Contactus = () => {
                                   sx={{ color: "#1565c0" }}
                                 />
                               }
-                              label={<Typography sx={{ color: "#ffff" }}>{option}</Typography>}
+                              label={
+                                <Typography sx={{ color: "#ffff" }}>
+                                  {option}
+                                </Typography>
+                              }
                             />
                           </Grid>
                         ))}
@@ -936,11 +990,11 @@ const Contactus = () => {
                           mt: 2,
                         }}
                       >
-
-                        <ReCAPTCHA sitekey="6Leogv0pAAAAAB3fEmqj88P-Q4pDnWYNAaZ7iliN" // Replace with your actual site key
-                          onChange={onRecaptchaChange} />
+                        <ReCAPTCHA
+                          sitekey="6Leogv0pAAAAAB3fEmqj88P-Q4pDnWYNAaZ7iliN" // Replace with your actual site key
+                          onChange={onRecaptchaChange}
+                        />
                       </Box>
-
                     </>
                   )}
                   <Box sx={{ my: 2 }}>
@@ -949,40 +1003,49 @@ const Contactus = () => {
                         variant="contained"
                         onClick={() => {
                           if (index === 0) {
-                            handleSubmit(onSubmit)()
+                            handleSubmit(onSubmit)();
                           } else if (index === 1) {
-                            secondStep.handleSubmit(onSubmit)()
+                            secondStep.handleSubmit(onSubmit)();
                           } else {
-                            thirdStep.handleSubmit(onSubmit)()
-                          }
-                        }
-                        }
-                        disabled={!Object.values(contactMethods).some(value => value === true)}
-                        sx={{
-                          mt: 1, mr: 1, borderRadius: 0, px: 3, fontFamily: "poppins",
-                          ':disabled': {
-                            backgroundColor: "grey",
-                            color: "black"
+                            thirdStep.handleSubmit(onSubmit)();
                           }
                         }}
-                      >
-                        {index === steps.length - 1 ? 'Finish' : 'Next'}
-                      </Button>
-                      {!index == 0 && <Button
-                        disabled={index === 0}
-                        // variant="contained"
-                        onClick={handleBack}
+                        disabled={
+                          !Object.values(contactMethods).some(
+                            (value) => value === true
+                          )
+                        }
                         sx={{
-                          mt: 1, mr: 1,
+                          mt: 1,
+                          mr: 1,
                           borderRadius: 0,
-                          ':disabled': {
-                            color: "lightgray"
-                          }
+                          px: 3,
+                          fontFamily: "poppins",
+                          ":disabled": {
+                            backgroundColor: "grey",
+                            color: "black",
+                          },
                         }}
                       >
-                        Back
-                      </Button>}
-
+                        {index === steps.length - 1 ? "Finish" : "Next"}
+                      </Button>
+                      {!index == 0 && (
+                        <Button
+                          disabled={index === 0}
+                          // variant="contained"
+                          onClick={handleBack}
+                          sx={{
+                            mt: 1,
+                            mr: 1,
+                            borderRadius: 0,
+                            ":disabled": {
+                              color: "lightgray",
+                            },
+                          }}
+                        >
+                          Back
+                        </Button>
+                      )}
                     </div>
                   </Box>
                 </StepContent>
@@ -1006,16 +1069,13 @@ const Contactus = () => {
           >
             <Box>
               <Typography
-
                 sx={{
                   fontFamily: "poppins",
                   color: "#ffff",
                   fontSize: "1rem",
                   fontWeight: "500",
                 }}
-              >
-               
-              </Typography>
+              ></Typography>
               <Typography
                 sx={{
                   fontFamily: "poppins",
@@ -1049,9 +1109,8 @@ const Contactus = () => {
             </Box>
           </Box>
         </Grid>
-
       </Grid>
-    </Container >
+    </Container>
   );
 };
 

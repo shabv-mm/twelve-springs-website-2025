@@ -22,6 +22,7 @@ import Layout from "./layout";
 import { StoreContextProvider } from "./common/StoreContext";
 import TermsConditions from "./TermsConditions";
 import PrivacyPolicy from "./PrivacyPolicy";
+import Landing from "./Landing";
 
 const theme = createTheme({
   typography: {
@@ -87,15 +88,15 @@ const router = createBrowserRouter([
         Component: Layout,
         children: [
           { path: "/", Component: Dashboard },
-          { path: "/home", Component: Dashboard }
-
+          { path: "/home", Component: Dashboard },
+          { path: "/landing", Component: Landing },
         ],
         // children: [{ path: "/terms-services", Component: TermsConditions }],
         // children: [{ path: "/privacy-policy", Component: PrivacyPolicy }],
       },
 
-      { path: '/terms-services', Component: TermsConditions },
-      { path: '/privacy-policy', Component: PrivacyPolicy },
+      { path: "/terms-services", Component: TermsConditions },
+      { path: "/privacy-policy", Component: PrivacyPolicy },
     ],
   },
 ]);
