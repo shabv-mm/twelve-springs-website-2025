@@ -10,7 +10,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import logoImg from "../../assets/mainlogo.png";
 import buttonImg from "../../assets/button.svg";
@@ -21,6 +21,7 @@ const Logo = styled("img")({
 
 const Header = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -134,8 +135,7 @@ const Header = () => {
         </Box>
         {!isMobile && (
           <Button
-            component={Link}
-            to="/#contactus"
+            onClick={() => navigate("/landing")}
             variant="contained"
             sx={{
               borderRadius: 0,
@@ -150,7 +150,7 @@ const Header = () => {
               color: "white",
             }}
           >
-            Get in Touch
+            Contact Us
           </Button>
         )}
       </Toolbar>
