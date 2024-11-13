@@ -1,7 +1,8 @@
 import axios from "axios";
 const api = axios.create({
   // baseURL: "https://api.twelvesprings.uk/api/v2",
-  baseURL: "https://springboot-12s-api-7b1aa99b4d9c.herokuapp.com/",
+  // baseURL: "https://springboot-12s-api-7b1aa99b4d9c.herokuapp.com/",
+  baseURL: "https://api.12s.uk/",
   // baseURL: "http://localhost:8081/",
 });
 api.interceptors.request.use(
