@@ -14,6 +14,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import logoImg from "../../assets/mainlogo.png";
 import buttonImg from "../../assets/button.svg";
+import { Divider } from "@mui/material";
 
 const Logo = styled("img")({
   width: "170px",
@@ -39,6 +40,7 @@ const Header = () => {
     { name: "Technologies", link: "/#technologies" },
     { name: "Products", link: "/#testimonials" },
     { name: "Company", link: "/#aboutus" },
+    { name: "Contact Us", link: "/landing" },
   ];
 
   return (
@@ -75,7 +77,7 @@ const Header = () => {
             <Logo src={logoImg} alt="Twelve Springs" />
           </Link>
           {isMobile && (
-            <Box sx={{ borderRadius: 5 }}>
+            <Box sx={{}}>
               <IconButton
                 edge="start"
                 color="inherit"
@@ -89,8 +91,12 @@ const Header = () => {
                 open={Boolean(anchorEl)}
                 onClose={handleMenuClose}
                 disableRestoreFocus
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "right",
+                }}
               >
-                {menuItems.map((item) => (
+                {menuItems.slice(0, 5).map((item) => (
                   <MenuItem
                     key={item.name}
                     onClick={handleMenuClose}
@@ -100,11 +106,36 @@ const Header = () => {
                       textDecoration: "none",
                       color: "inherit",
                       fontFamily: "Poppins",
-                      fontSize: "1.2rem",
+                      fontSize: "1.1rem",
                     }}
                   >
                     {item.name}
                   </MenuItem>
+                ))}
+                <Divider />
+                {menuItems.slice(5).map((item) => (
+                  <Box
+                    sx={{ display: "flex", justifyContent: "center", mt: 1 }}
+                  >
+                    <Button
+                      onClick={() => navigate("/landing")}
+                      variant="contained"
+                      sx={{
+                        textAlign: "center",
+                        borderRadius: 0,
+                        width: "90%",
+                        fontWeight: 400,
+                        fontSize: "1.1rem",
+                        fontFamily: "Poppins",
+                        lineHeight: "24px",
+                        textTransform: "capitalize",
+                        backgroundColor: "black",
+                        color: "white",
+                      }}
+                    >
+                      Contact Us
+                    </Button>
+                  </Box>
                 ))}
               </Menu>
             </Box>
