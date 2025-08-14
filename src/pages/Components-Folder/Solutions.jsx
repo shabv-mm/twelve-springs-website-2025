@@ -9,10 +9,7 @@ import {
   IconButton,
 } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import Cutting from "../../assets/Cutting.svg";
 import whiteBgLogin from "../../assets/whiteBgLogin.svg";
-import nonBgLogin from "../../assets/nonBgLogin.svg";
-import halfnhalf from "../../assets/halfnhal.svg";
 import { Link } from "react-scroll";
 
 const solutions = [
@@ -111,7 +108,7 @@ const Solution = () => {
           fontWeight={600}
           fontSize={"2rem"}
           sx={{ display: "inline-block", fontFamily: "poppins" }}
-        variant="span"
+          component="span"
 
         >
          Domains

@@ -1,6 +1,5 @@
 import Box from "@mui/material/Box";
-import { useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { Container, GlobalStyles } from "@mui/material";
 
 export default function Layout() {

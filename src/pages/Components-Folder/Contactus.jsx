@@ -13,7 +13,6 @@ import {
   StepContent,
   Checkbox,
   FormControlLabel,
-  TextareaAutosize,
   MenuItem,
   InputLabel,
   FormControl,
@@ -122,7 +121,6 @@ const Contactus = () => {
       openToast("error", "Please complete the reCAPTCHA.");
       return;
     }
-    const newVal = [watch(useForm), watch(secondStep.name)];
 
     const method =
       contactMethods.phone && contactMethods.email
@@ -853,7 +851,7 @@ const Contactus = () => {
                       <TextField
                         {...secondStep.register("projectDescription")}
                         InputProps={{
-                          inputComponent: TextareaAutosize,
+                          inputComponent: 'textarea',
                           inputProps: {
                             minRows: 6,
                             maxRows: Infinity,

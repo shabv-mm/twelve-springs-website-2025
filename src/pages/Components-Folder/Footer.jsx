@@ -1,16 +1,9 @@
 import React from "react";
-import { Box, Container, Typography, Grid, IconButton, styled } from "@mui/material";
-import { Email, Phone, LocationOn } from "@mui/icons-material";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import { Box, Container, Typography, Grid, styled } from "@mui/material";
 import logo from "../../assets/logo.svg";
-import icon from "../../assets/footericon.svg";
 import email from "../../assets/email.svg";
-import mob from "../../assets/mobile.svg";
 import location from "../../assets/location.svg";
-import twitter from "../../assets/twitter.svg";
 import linkedin from "../../assets/linkedin.svg";
-import FooterImg from "../../assets/Footer.svg";
 // import { Link } from "react-scroll";
 import { Link as RdLink } from "react-router-dom";
 
@@ -30,43 +23,8 @@ const Footer = () => {
   return (
     <>
       <Box sx={{ backgroundColor: "#1F1F1F", color: "white", py: 3, mt: 6, borderTopRightRadius: 300, }}>
-        <Box
-          component="img"
-          src={FooterImg}
-          alt="Bottom left image"
-          sx={{
-            position: "absolute",
-            // top: 0,
-            right: 0,
-            height: "auto",
-            width: {
-              xs: "0px",
-              md: "255px",
-            },
-          }}
-        />
         <Container>
           <Grid container spacing={5}  >
-            {/*<Grid item xs={12} md>
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "flex-end",
-                  height: "100%",
-                }}
-              >
-                <Box
-                  sx={{
-                    position: "relative",
-                    display: { xs: "none", md: "block" },
-                    left: "-20px",
-                  }}
-                >
-                  <img src={icon} alt="footer icon" />
-                </Box>
-              </Box>
-            </Grid>*/}
             <Grid item xs={12} md sx={{ pr: 5, borderRight: { xs: "none", md: "0.5px solid #ffffff1a" } }}>
               <img src={logo} alt="twelve springs" style={{ marginTop: 35 }} />
               <Box>
@@ -89,17 +47,6 @@ const Footer = () => {
                   info@twelvesprings.uk
                 </Typography>
               </Box>
-              {/* <Box
-                sx={{ display: "flex", alignItems: "center", gap: 2, mt: 3 }}
-              >
-                <img src={mob} alt="" srcSet="" />
-                <Typography
-                  component="p"
-                  sx={{ fontFamily: "Poppins", fontWeight: "400" }}
-                >
-                  +44-735-554-4747
-                </Typography>
-              </Box> */}
               <Box
                 sx={{ display: "flex", alignItems: "start", gap: 2, mt: 3 }}
               >

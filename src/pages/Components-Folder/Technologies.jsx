@@ -119,7 +119,7 @@ const TechnologyPage = () => {
       </Typography>
       <Typography
         // fontSize={"2rem"}
-        fontWeight={0}
+        fontWeight={200}
         align="center"
         gutterBottom
         sx={{
@@ -133,7 +133,7 @@ const TechnologyPage = () => {
         Advanced{" "}
         <Typography
           fontWeight={500}
-        variant="span"
+          component="span"
 
           sx={{
             display: "inline-block",

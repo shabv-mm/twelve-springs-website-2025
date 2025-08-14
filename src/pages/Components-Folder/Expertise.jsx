@@ -200,7 +200,7 @@ const Expertise = () => (
     </Typography>
     <Typography
       fontSize={"2rem"}
-      fontWeight={0}
+      fontWeight={200}
       align="center"
       gutterBottom
       sx={{
@@ -213,7 +213,7 @@ const Expertise = () => (
         fontWeight={600}
         fontSize={"2rem"}
         sx={{ display: "inline-block", fontFamily: "poppins" }}
-        variant="span"
+        component="span"
       >
         Our Expertise
       </Typography>

@@ -10,7 +10,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate, Link as RouterLink } from "react-router-dom";
 
 import logoImg from "../../assets/mainlogo.png";
 import buttonImg from "../../assets/button.svg";
@@ -73,9 +73,9 @@ const Header = () => {
             gap: 2,
           }}
         >
-          <Link to="/">
+          <Box component={RouterLink} to="/">
             <Logo src={logoImg} alt="Twelve Springs" />
-          </Link>
+          </Box>
           {isMobile && (
             <Box sx={{}}>
               <IconButton
@@ -100,8 +100,8 @@ const Header = () => {
                   <MenuItem
                     key={item.name}
                     onClick={handleMenuClose}
-                    component={Link}
-                    to={item.link}
+                    component="a"
+                    href={item.link}
                     sx={{
                       textDecoration: "none",
                       color: "inherit",
@@ -149,11 +149,11 @@ const Header = () => {
             alignItems: "center",
           }}
         >
-          {menuItems.map((item) => (
+          {menuItems.slice(0,5).map((item) => (
             <Button
               key={item.name}
-              component={Link}
-              to={item.link}
+              component="a"
+              href={item.link}
               sx={{
                 color: "#000",
                 textTransform: "none",

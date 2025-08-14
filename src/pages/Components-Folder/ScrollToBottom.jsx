@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Fab } from "@mui/material";
-import { ArrowUpward, Key } from "@mui/icons-material";
+import { ArrowUpward } from "@mui/icons-material";
 const ScrollToTopButton = () => {
     const [showButton, setShowButton] = useState(false);
 

@@ -42,7 +42,7 @@ const LatestArticles = () => {
           right: 0,
           // width: '300px', // Adjust the width as necessary
           height: "auto",
-          width: { xs: "0px", md: "300px", xs: "0px" },
+          width: { xs: "0px", md: "300px" },
         }}
       ></Box>
       <Box sx={{ height: { md: 30, sm: 10 } }}></Box>
@@ -69,8 +69,9 @@ const LatestArticles = () => {
           mb: 1,
         }}
       >
-        <span
-          style={{
+        <Typography
+          component="span"
+          sx={{
             fontWeight: "100",
             // fontSize: { md: 48, xs: 30 },
             fontFamily: "poppins",
@@ -78,7 +79,7 @@ const LatestArticles = () => {
           }}
         >
           Latest{" "}
-        </span>
+        </Typography>
         Articles
       </Typography>
       <Container

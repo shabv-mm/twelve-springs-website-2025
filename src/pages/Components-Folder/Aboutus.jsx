@@ -33,7 +33,7 @@ const Aboutus = () => {
         </Typography>
         <Typography
           // fontSize={"2rem"}
-          fontWeight={0}
+          fontWeight={200}
           align="center"
           gutterBottom
           sx={{
@@ -48,7 +48,7 @@ const Aboutus = () => {
           About{" "}
           <Typography
             fontWeight={500}
-            variant="span"
+            component="span"
             sx={{
               display: "inline-block",
               fontFamily: "poppins",
@@ -491,27 +491,6 @@ const Aboutus = () => {
                 </Typography>
               </Box>
             </Grid>
-{/* 
-            <Grid
-              item
-              md={5}
-              xs={12}
-              sx={{
-                mt: 0,
-                display: { xs: "flex", md: "none" },
-                justifyContent: { xs: "center", md: "flex-start" },
-              }}
-            >
-              <img
-                src={aboutus2}
-                alt="about us 2"
-                style={{
-                  width: "90%",
-                  objectFit: "contain",
-                  //   height: 500,
-                }}
-              ></img>
-            </Grid> */}
 
             <Button
               variant="contained"

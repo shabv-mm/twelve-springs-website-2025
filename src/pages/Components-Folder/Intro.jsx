@@ -127,22 +127,6 @@ const Intro = () => {
         // mb: 4,
       }}
     >
-      {/*<Box
-        component="img"
-        src={page1}
-        // src={ExpertiseImg}
-        // src="path_to_your_image" // Replace with the path to your image
-        alt="Top left image"
-        sx={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: { xs: "0px", sm: "100%" },
-          height: "100%",
-          zIndex: -1,
-          objectFit: "contain",
-        }}
-      ></Box>*/}
       <Container>
         <Box
           sx={{
@@ -196,27 +180,6 @@ const Intro = () => {
               driving continuous innovation and propelling business growth.
             </Typography>{" "}
           </Box>
-          {/* <Button
-          variant="contained"
-          sx={{
-            mt: { xs: 0, sm: 5 },
-            mb: { md: 5, xs: 0 },
-            borderRadius: 0,
-            px: 3.5,
-            py: 1.5,
-            //   height: "56px",
-            //   width: "197px",
-            fontWeight: "400",
-            fontSize: 16,
-            fontFamily: "poppins",
-            lineHeight: "24px",
-            textTransform: "capitalize",
-            backgroundColor: "black",
-          }}
-          endIcon={<img src={buttonImg} style={{ marginLeft: 5 }}></img>}
-        >
-          Get in Touch
-        </Button> */}
           <Link to="contactus" smooth={true} duration={1000}>
             <Button
               variant="contained"

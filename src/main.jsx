@@ -1,4 +1,4 @@
-import React, { Fragment, useRef } from "react";
+import React, { Fragment } from "react";
 import ReactDOM from "react-dom/client";
 
 import {
@@ -8,16 +8,8 @@ import {
   useNavigate,
   ScrollRestoration,
 } from "react-router-dom";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import Dashboard from "./Dashboard";
-import { useReactToPrint } from "react-to-print";
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
 import { createTheme, ThemeProvider, CssBaseline } from "@mui/material";
-import { indigo, red, blue, blueGrey } from "@mui/material/colors";
-import { SWRConfig } from "swr";
-import { DragDropContext } from "react-beautiful-dnd";
 import Layout from "./layout";
 import { StoreContextProvider } from "./common/StoreContext";
 import TermsConditions from "./TermsConditions";
@@ -29,20 +21,7 @@ const theme = createTheme({
     fontFamily: '"Poppins", sans-serif',
     fontWeight: "400",
   },
-  palette: {
-    // primary: {
-    //   main: indigo[900],
-    // },
-    // info: {
-    //   main: blue[700],
-    // },
-    // error: {
-    //   main: red[900],
-    // },
-    // warning: {
-    //   main: blueGrey[500],
-    // },
-  },
+  
   components: {
     MuiTextField: {
       defaultProps: {
