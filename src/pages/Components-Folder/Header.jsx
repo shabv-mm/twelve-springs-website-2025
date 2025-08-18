@@ -13,7 +13,6 @@ import MenuItem from "@mui/material/MenuItem";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
 
 import logoImg from "../../assets/mainlogo.png";
-import buttonImg from "../../assets/button.svg";
 import { Divider } from "@mui/material";
 
 const Logo = styled("img")({

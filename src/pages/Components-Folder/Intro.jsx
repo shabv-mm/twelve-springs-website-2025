@@ -123,7 +123,7 @@ const Intro = () => {
         alignItems: "center",
         overflowX: "hidden",
         // justifyContent: "center",
-        backgroundColor: "#ebf5f6",
+        backgroundColor: "transparent",
         // mb: 4,
       }}
     >

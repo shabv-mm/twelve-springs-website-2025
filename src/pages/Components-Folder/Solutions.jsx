@@ -84,9 +84,7 @@ const Solution = () => {
   const [selected, setSelected] = React.useState("");
   const [hover, setHover] = React.useState(false);
   return (
-    <Box
-      sx={{ paddingTop: 10, pb: 10, background: "#e1f8ff8c" }}
-    >
+    <Box sx={{ paddingTop: 10, pb: 10 }}>
       <Typography
         sx={{ color: "#00A1FF", fontWeight: "500", fontFamily: "poppins" }}
         align="center"

@@ -19,33 +19,33 @@ function Dashboard() {
     <>
       <Header />
       <Box>
-        <div id="intro">
+        <Box id="intro" sx={{ background: "linear-gradient(180deg, #FFFFFF 5% ,#FFF7EE 100%)" }}>
           <Intro />
-        </div>
-        <div id="expertise">
+        </Box>
+        <Box id="expertise" sx={{ background: "linear-gradient(180deg, #FFFFFF 0%, #FFF7EE 100%)" }}>
           <Expertise />
-        </div>
-        <div id="solution">
+        </Box>
+        <Box id="solution" sx={{ background: "linear-gradient(180deg, #FFFFFF 0%, #FFF7EE 100%)" }}>
           <Solution />
-        </div>
+        </Box>
         <div id="technologies">
           <Technologies />
         </div>
-        <div id="aboutus">
+        <Box id="aboutus" sx={{ background: "linear-gradient(90deg, #FFF7EE 0%, #FFFFFF 100%)" }}>
           <Aboutus />
-        </div>
-        <div id="ourprocess">
+        </Box>
+        <Box id="ourprocess" sx={{ background: "linear-gradient(to bottom, #FFFFFF 0%, #FFF7EE 100%)" }}>
           <OurProcess />
-        </div>
+        </Box>
         {/*<div id="blog">
           <LatestArticles />
         </div>*/}
-        <div id="testimonials">
+      <Box id="testimonials" sx={{ background: "linear-gradient(180deg, #FFFFFF 0%, #FFF3E6 100%)" }}>
           <Testimonials />
-        </div>
-        <div id="contactus">
+        </Box>
+      <Box id="contactus" sx={{ background: "linear-gradient(190deg, #FFFFFF 0%, #FFF3E6 100%)" }}>
           <Contactus />
-        </div>
+        </Box>
       </Box>
       <Footer />
       <ScrollToTopButton />

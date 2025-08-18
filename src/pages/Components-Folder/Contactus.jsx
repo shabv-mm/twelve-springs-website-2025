@@ -14,7 +14,6 @@ import {
   Checkbox,
   FormControlLabel,
   MenuItem,
-  InputLabel,
   FormControl,
   Select,
 } from "@mui/material";
@@ -63,21 +62,17 @@ const Contactus = () => {
   });
 
   const schema2 = Yup.object().shape({
-    // projectTitle: Yup.string().required('Message is required'),
     projectDescription: Yup.string().required(
       "Project descripition is required"
     ),
-    // projectGoal: Yup.string().required('Target audiance is required'),
     budget: Yup.number().typeError().required("Budget is required"),
   });
 
-  const schema3 = Yup.object().shape({
-    // softwareType: Yup.array().min(1, "Required"),
-  });
+  const schema3 = Yup.object().shape({});
+
   const { openToast } = useContext(StoreContext);
   const [recaptchaValue, setRecaptchaValue] = useState(null);
   const [activeStep, setActiveStep] = useState(0);
-  const [contactMethodsApi, setContactMethodsApi] = useState(0);
 
   const softwareOptions = [
     "Software Architecture",
@@ -167,12 +162,7 @@ const Contactus = () => {
       openToast("error", error.response.data.message);
     }
   };
-  // const handleSoftwareTypeChange = (event) => {
-  //   setSoftwareType({
-  //     ...softwareType,
-  //     [event.target.name]: event.target.checked,
-  //   });
-  // };
+
   const handleSoftwareTypeChange = (event) => {
     const { name, checked } = event.target;
     setSoftwareType((prevState) =>
@@ -187,7 +177,6 @@ const Contactus = () => {
 
   const onSubmit = (data) => {
     if (activeStep === 2) {
-      // if (activeStep === steps.length - 1) {
       handleAdd(data)();
     } else {
       handleNext();
@@ -212,7 +201,6 @@ const Contactus = () => {
             textAlign: "center",
             fontSize: { md: 48, xs: 30 },
             fontFamily: "poppins",
-            //   lineHeight: "67.2px",
             mb: 1,
             mx: "auto",
           }}
@@ -221,9 +209,7 @@ const Contactus = () => {
           <span
             style={{
               fontWeight: "400",
-              // fontSize: { md: 48, xs: 30 },
               fontFamily: "poppins",
-              // lineHeight: "67.2px",
             }}
           >
             with us{" "}
@@ -241,9 +227,6 @@ const Contactus = () => {
             width: {
               xs: "0px",
               md: "75%",
-            },
-            maxWidth: {
-              // md: "calc(100% - 70px)", // Adjust this value as necessary to ensure it stays within the black and blue box
             },
           }}
         />
@@ -418,15 +401,6 @@ const Contactus = () => {
                         </Typography>
                       </Box>
                       <FormControl fullWidth sx={{ mb: 1 }}>
-                        {/* <InputLabel
-                          sx={{
-                            color: 'white',
-                            fontFamily: 'poppins',
-                            opacity: 0.6,
-                          }}
-                        >
-                          Your Company Source
-                        </InputLabel> */}
                         <Select
                           {...register("source")}
                           value={watch("source")}
@@ -438,7 +412,6 @@ const Contactus = () => {
                               position="start"
                               sx={{
                                 position: "absolute",
-                                // top: "20px",
                                 left: "10px",
                               }}
                             >
@@ -446,7 +419,6 @@ const Contactus = () => {
                             </InputAdornment>
                           }
                           displayEmpty
-                          // inputProps={{ 'aria-label': 'Without label' }}
                           fullWidth
                           sx={{
                             height: "45px",
@@ -460,10 +432,9 @@ const Contactus = () => {
                             },
                             "& .MuiInputBase-input": {
                               color: "white",
-                              // paddingTop: "10px",
                               paddingLeft: "30px",
-                              paddingBottom: "23x",
-                              minHeighteight: "20px",
+                              paddingBottom: "23px",
+                              minHeight: "20px",
                             },
                           }}
                           error={!!errors.source}
@@ -485,15 +456,6 @@ const Contactus = () => {
                             Customer Referral
                           </MenuItem>
                         </Select>
-                        {/* {errors.source && (
-                          <TextField
-                            error
-                            helperText={errors?.source?.message}
-                            sx={{
-                              display: 'none',
-                            }}
-                          />
-                        )} */}
                       </FormControl>
                       <Box sx={{ borderBottom: "1px solid grey", mb: 2 }}>
                         <Typography
@@ -595,10 +557,8 @@ const Contactus = () => {
                                   borderBottom: errors?.phone
                                     ? "1px solid #d32f2f"
                                     : "transparent",
-                                  // marginBottom: errors?.phone ? "0px" : "10px",
                                   boxShadow: "none",
                                 }}
-                                style={{}}
                                 onFocus={(e) => {
                                   e.target.style.borderTop = "none";
                                   e.target.style.borderLeft = "none";
@@ -660,7 +620,6 @@ const Contactus = () => {
                                 position="start"
                                 sx={{
                                   position: "absolute",
-                                  // top: "20px",
                                   left: "10px",
                                 }}
                               >
@@ -706,7 +665,6 @@ const Contactus = () => {
                                 left: "10px",
                               }}
                             >
-                              {/* <img src={userSignup} alt="user signup" />  */}
                               <Box
                                 component="img"
                                 src={msgText}
@@ -744,7 +702,6 @@ const Contactus = () => {
                             ? secondStep?.formState.errors.projectTitle.message
                             : ""
                         }
-                        // helperText={secondStep?.formState.errors.projectTitle?.message}
                       />
                       <TextField
                         {...secondStep.register("budget")}
@@ -755,7 +712,6 @@ const Contactus = () => {
                               position="start"
                               sx={{
                                 position: "absolute",
-                                // top: "20px",
                                 left: "10px",
                               }}
                             >
@@ -930,7 +886,6 @@ const Contactus = () => {
                               {...thirdStep.register("softwareType")}
                               control={
                                 <Checkbox
-                                  // checked={softwareType[option]}
                                   checked={softwareType?.includes(option)}
                                   onChange={handleSoftwareTypeChange}
                                   name={option}
@@ -945,40 +900,6 @@ const Contactus = () => {
                             />
                           </Grid>
                         ))}
-                        {/* {softwareOptions.map(option => (
-                          <Grid item xs={12} md={6} key={option}>
-                            <FormControl error={!!thirdStep.formState.errors.softwareType}>
-                              <FormControlLabel
-                                control={
-                                  <Controller
-                                   {...thirdStep.register("softwareType")}
-                                    control={control}
-                                    render={({ field }) => (
-                                      <Checkbox
-                                        {...field}
-                                        checked={field.value?.includes(option) || false}
-                                        onChange={(e) => {
-                                          field.onChange(
-                                            e.target.checked
-                                              ? [...(field.value || []), option]
-                                              : (field.value || []).filter(value => value !== option)
-                                          );
-                                          handleSoftwareTypeChange(e);
-                                        }}
-                                        name={option}
-                                        sx={{ color: "#1565c0" }}
-                                      />
-                                    )}
-                                  />
-                                }
-                                label={<Typography sx={{ color: "#ffff" }}>{option}</Typography>}
-                              />
-                              {thirdStep.formState.errors.softwareType && (
-                                <FormHelperText>{thirdStep.formState.errors.softwareType.message}</FormHelperText>
-                              )}
-                            </FormControl>
-                          </Grid>
-                        ))} */}
                       </Grid>
                       <Box
                         sx={{
@@ -1030,7 +951,6 @@ const Contactus = () => {
                       {!index == 0 && (
                         <Button
                           disabled={index === 0}
-                          // variant="contained"
                           onClick={handleBack}
                           sx={{
                             mt: 1,

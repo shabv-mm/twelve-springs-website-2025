@@ -27,9 +27,6 @@ const Testimonials = () => {
   return (
     <div
       style={{
-        // backgroundColor: "#f8fdfe",
-        backgroundColor: "#e1f8ff8c",
-        // marginTop: "20px",
         textAlign: "center",
         position: "relative",
         marginBottom: 20,

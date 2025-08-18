@@ -16,10 +16,10 @@ import PhoneIcon from "@mui/icons-material/Phone";
 import EmailIcon from "@mui/icons-material/Email";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import LanguageIcon from "@mui/icons-material/Language";
-import LinkedInIcon from "../src/assets/linkedin-outline.svg";
-import BrowserIcon from "../src/assets/browser.svg";
-import Logo from "../src/assets/logo-TS.svg";
-import decor from "../src/assets/decor-TS.svg";
+import LinkedInIcon from "./assets/linkedin-outline.svg";
+import BrowserIcon from "./assets/browser.svg";
+import Logo from "./assets/logo-TS.svg";
+import decor from "./assets/decor-TS.svg";
 import { Controller, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -82,7 +82,6 @@ const Landing = () => {
   const watchContactMethod = watch("contactMethod");
 
   const onSubmit = (data) => {
-    console.log(data);
     if (!recaptchaValue) {
       openToast("error", "Please complete the reCAPTCHA.");
       return;
@@ -92,14 +91,12 @@ const Landing = () => {
   };
 
   const formAPI = async (e) => {
-    // console.log(recaptchaValue);
     try {
       const { data, status } = await api.post("v1/auth/website-lead", {
         ...e,
         recaptcha: recaptchaValue,
       });
       if (status === 200) {
-        console.log(data);
         openToast("success", data?.message);
       }
       reset({
@@ -141,7 +138,6 @@ const Landing = () => {
         container
         sx={{
           minHeight: "100vh",
-          background: "linear-gradient(63.18deg, #34073D 0%, #145277 100%)",
         }}
       >
         {/* Left Section */}

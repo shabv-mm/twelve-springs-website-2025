@@ -174,8 +174,8 @@ const Aboutus = () => {
                 borderBottomRightRadius: 50,
                 borderBottomLeftRadius: 0,
                 // backgroundColor: "#ebf5f6",
-                background:
-                  "linear-gradient(to left bottom, #daf8f4, #e7f9ff, #f6fbff, #ffffff)",
+                // background:
+                //   "linear-gradient(to left bottom, #daf8f4, #e7f9ff, #f6fbff, #ffffff)",
                 mt: { xs: 0, md: -3 },
                 mb: { xs: 0, md: 5 },
               }}

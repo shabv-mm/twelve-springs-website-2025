@@ -103,12 +103,12 @@ const ServiceCard = ({ img, title, description }) => (
 
       <Card
         sx={{
+          elevation: 3,
           py: 4,
           pl: 3,
           pr: 1,
-          boxShadow: 0,
-          background:
-            "linear-gradient(to left bottom, #daf8f4, #e7f9ff, #f6fbff, #ffffff)",
+          boxShadow: "0px 0px 4px rgba(0, 0, 0, 0.4)",
+          // background:"linear-gradient(60deg,  #FFF3E6 0%, #FFFFFF 100%)",
           borderRadius: 0,
           border: "1px solid #f6fbff",
           cursor: "pointer",

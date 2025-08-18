@@ -6,7 +6,7 @@ export function StoreContextProvider(props) {
     const isAuth = localStorage.getItem("shortLivedToken") ? true : false
     const [auth, setAuth] = useState({
         shortLivedToken: isAuth ? localStorage.getItem("shortLivedToken") : null,
-        data: isAuth ? localStorage.getItem("data") : null,
+        data: isAuth ? JSON.parse(localStorage.getItem("data") || "null") : null,
     })
     const [logoutDialog, setLogoutDialog] = useState({ open: false })
     const [loading, setLoading] = useState(false)

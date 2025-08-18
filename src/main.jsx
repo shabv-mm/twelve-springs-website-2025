@@ -60,7 +60,6 @@ const router = createBrowserRouter([
   {
     path: "/",
     Component: Root,
-    // ErrorBoundary: ErrorPage,
     children: [
       {
         path: "/",
@@ -70,8 +69,6 @@ const router = createBrowserRouter([
           { path: "/home", Component: Dashboard },
           { path: "/landing", Component: Landing },
         ],
-        // children: [{ path: "/terms-services", Component: TermsConditions }],
-        // children: [{ path: "/privacy-policy", Component: PrivacyPolicy }],
       },
 
       { path: "/terms-services", Component: TermsConditions },
