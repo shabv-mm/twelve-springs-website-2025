@@ -18,32 +18,45 @@ function Dashboard() {
   return (
     <>
       <Header />
-      <Box>
-        <Box id="intro" sx={{ background: "linear-gradient(180deg, #FFFFFF 5% ,#FFF7EE 100%)" }}>
+      <Box
+        sx={{
+          // Use a single repeating gradient for a seamless effect
+          background: `
+            repeating-linear-gradient(
+              180deg,
+              #FFF7EE 0%,
+              #FFFFFF 50%,
+              #FFF7EE 100%
+            )
+          `,
+          backgroundSize: '100% 200vh', // Sets the size of one complete, repeating gradient wave
+        }}
+      >
+        <Box id="intro">
           <Intro />
         </Box>
-        <Box id="expertise" sx={{ background: "linear-gradient(180deg, #FFFFFF 0%, #FFF7EE 100%)" }}>
+        <Box id="expertise">
           <Expertise />
         </Box>
-        <Box id="solution" sx={{ background: "linear-gradient(180deg, #FFFFFF 0%, #FFF7EE 100%)" }}>
+        <Box id="solution">
           <Solution />
         </Box>
         <div id="technologies">
           <Technologies />
         </div>
-        <Box id="aboutus" sx={{ background: "linear-gradient(90deg, #FFF7EE 0%, #FFFFFF 100%)" }}>
+        <Box id="aboutus">
           <Aboutus />
         </Box>
-        <Box id="ourprocess" sx={{ background: "linear-gradient(to bottom, #FFFFFF 0%, #FFF7EE 100%)" }}>
+        <Box id="ourprocess">
           <OurProcess />
         </Box>
         {/*<div id="blog">
           <LatestArticles />
         </div>*/}
-      <Box id="testimonials" sx={{ background: "linear-gradient(180deg, #FFFFFF 0%, #FFF3E6 100%)" }}>
+        <Box id="testimonials">
           <Testimonials />
         </Box>
-      <Box id="contactus" sx={{ background: "linear-gradient(190deg, #FFFFFF 0%, #FFF3E6 100%)" }}>
+        <Box id="contactus">
           <Contactus />
         </Box>
       </Box>
