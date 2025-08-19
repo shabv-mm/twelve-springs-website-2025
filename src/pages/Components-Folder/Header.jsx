@@ -51,6 +51,7 @@ import DataUsageOutlinedIcon from "@mui/icons-material/DataUsageOutlined";
 import CloudQueueOutlinedIcon from "@mui/icons-material/CloudQueueOutlined";
 
 import logoImg from "../../assets/mainlogo.png";
+import { Search } from "@mui/icons-material";
 
 const Logo = styled("img")({
   width: "170px",
@@ -119,44 +120,20 @@ const Header = () => {
   const navigate = useNavigate();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [servicesAnchorEl, setServicesAnchorEl] = React.useState(null);
-  const [solutionsAnchorEl, setSolutionsAnchorEl] = React.useState(null);
-  const [technologiesAnchorEl, setTechnologiesAnchorEl] = React.useState(null);
+// track which menu is currently open on desktop: "Services" | "Solutions" | "Technologies" | null
+const [openMenu, setOpenMenu] = React.useState(null);
 
-  const handleMenuClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
 
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    setServicesAnchorEl(null);
-    setSolutionsAnchorEl(null);
-    setTechnologiesAnchorEl(null);
-  };
+const handleMenuOpen = (menuName) => (event) => {
+  setAnchorEl(event.currentTarget);
+  setOpenMenu(menuName);
+};
 
-  const handleServicesMenuOpen = (event) => {
-    setServicesAnchorEl(event.currentTarget);
-  };
-
-  const handleServicesMenuClose = () => {
-    setServicesAnchorEl(null);
-  };
-
-  const handleSolutionsMenuOpen = (event) => {
-    setSolutionsAnchorEl(event.currentTarget);
-  };
-
-  const handleSolutionsMenuClose = () => {
-    setSolutionsAnchorEl(null);
-  };
-
-  const handleTechnologiesMenuOpen = (event) => {
-    setTechnologiesAnchorEl(event.currentTarget);
-  };
-
-  const handleTechnologiesMenuClose = () => {
-    setTechnologiesAnchorEl(null);
-  };
+// Close currently open menu
+const handleMenuClose = () => {
+  setAnchorEl(null);
+  setOpenMenu(null);
+};
 
   // Define the new menu structure with nested options and icons
   const menuItems = [
@@ -174,7 +151,7 @@ const Header = () => {
         { name: "IoT Development", link: "/services/iot-development", icon: <SatelliteAltOutlinedIcon sx={{ color: "#fff" }} /> },
         { name: "Mobile App Development", link: "/services/mobile-app-development", icon: <PhoneAndroidOutlinedIcon sx={{ color: "#fff" }} /> },
         { name: "Software Development", link: "/services/software-development", icon: <CodeTwoToneIcon sx={{ color: "#fff" }} /> },
-        { name: "Software Quality Engineering", link: "/services/software-quality", icon: <SecurityOutlinedIcon sx={{ color: "#fff" }} /> },
+        { name: "Software Quality Engineering", link: "/services/software-quality", icon: <Search sx={{ color: "#fff" }} /> },
         { name: "Dedicated Teams", link: "/services/dedicated-teams", icon: <PeopleOutlineOutlinedIcon sx={{ color: "#fff" }} /> },
         { name: "UI/UX Design", link: "/services/ui-ux", icon: <DesignServicesOutlinedIcon sx={{ color: "#fff" }} /> },
       ],
@@ -279,162 +256,197 @@ const Header = () => {
 
         {/* Desktop Menu */}
         <Box
-          sx={{
-            display: { xs: "none", md: "flex" },
-            flexGrow: 1,
-            justifyContent: "center",
-            gap: 2,
-            alignItems: "center",
-          }}
-        >
-          {menuItems.map((item) => (
-            <React.Fragment key={item.name}>
-              {item.subMenu && item.name === "Services" ? (
-                <Box>
-                  <Button
-                    onClick={handleServicesMenuOpen}
-                    sx={{
-                      color: "#000",
-                      textTransform: "none",
-                      fontFamily: "Poppins",
-                    }}
-                    endIcon={<ExpandMoreIcon />}
-                  >
-                    {item.name}
-                  </Button>
-                  <Menu
-                    anchorEl={servicesAnchorEl}
-                    open={Boolean(servicesAnchorEl)}
-                    onClose={handleServicesMenuClose}
-                    sx={{
-                      "& .MuiPaper-root": {
-                        backgroundColor: "#000",
-                        color: "#fff",
-                        borderRadius: "0",
-                      },
-                    }}
-                  >
-                    {item.subMenu.map((subItem) => (
-                      <MenuItem
-                        key={subItem.name}
-                        onClick={() => {
-                          navigate(subItem.link);
-                          handleServicesMenuClose();
-                        }}
-                        sx={{
-                            fontSize: "1rem",
-                            py: 1.5,
-                            "&:hover": {
-                                backgroundColor: "rgba(255, 255, 255, 0.1)",
-                            }
-                        }}
-                      >
-                         <ListItemIcon>
-                             {subItem.icon}
-                         </ListItemIcon>
-                         {subItem.name}
-                      </MenuItem>
-                    ))}
-                  </Menu>
-                </Box>
-              ) : item.subMenu && item.name === "Solutions" ? (
-                  <Box>
-                    <Button
-                      onClick={handleSolutionsMenuOpen}
-                      sx={{
-                        color: "#000",
-                        textTransform: "none",
-                        fontFamily: "Poppins",
-                      }}
-                      endIcon={<ExpandMoreIcon />}
-                    >
-                      {item.name}
-                    </Button>
-                    <Menu
-                      anchorEl={solutionsAnchorEl}
-                      open={Boolean(solutionsAnchorEl)}
-                      onClose={handleSolutionsMenuClose}
-                      sx={{
-                          "& .MuiPaper-root": {
-                              backgroundColor: "#000",
-                              color: "#fff",
-                              borderRadius: 0
-                          }
-                      }}
-                    >
-                      {item.subMenu.map((subItem) => (
-                        <MenuItem
-                          key={subItem.name}
-                          onClick={() => {
-                            navigate(subItem.link);
-                            handleSolutionsMenuClose();
-                          }}
-                          sx={{
-                            fontSize: "1rem",
-                            py: 1.5,
-                            "&:hover": {
-                                backgroundColor: "rgba(255, 255, 255, 0.1)",
-                            }
-                          }}
-                        >
-                           <ListItemIcon>
-                               {subItem.icon}
-                           </ListItemIcon>
-                           <ListItemText>{subItem.name}</ListItemText>
-                        </MenuItem>
-                      ))}
-                    </Menu>
-                  </Box>
-              ) : item.subMenu && item.name === "Technologies" ? (
-                  <Box>
-                    <Button
-                      onClick={handleTechnologiesMenuOpen}
-                      sx={{
-                        color: "#000",
-                        textTransform: "none",
-                        fontFamily: "Poppins",
-                      }}
-                      endIcon={<ExpandMoreIcon />}
-                    >
-                      {item.name}
-                    </Button>
-                    <Menu
-                      anchorEl={technologiesAnchorEl}
-                      open={Boolean(technologiesAnchorEl)}
-                      onClose={handleTechnologiesMenuClose}
-                      sx={{
-                        "& .MuiPaper-root": {
-                          backgroundColor: "#000",
-                          color: "#fff",
-                          borderRadius: "0",
-                        },
-                      }}
-                    >
-                      {item.subMenu.map((subItem) => (
-                        <NestedMenuItem
-                          key={subItem.name}
-                          parent={subItem}
-                          onClose={handleTechnologiesMenuClose}
-                        />
-                      ))}
-                    </Menu>
-                  </Box>
-              ) : (
-                <Button
-                  component="a"
-                  href={item.link}
-                  sx={{
-                    color: "#000",
-                    textTransform: "none",
-                    fontFamily: "Poppins",
-                  }}
-                >
-                  {item.name}
-                </Button>
-              )}
-            </React.Fragment>
-          ))}
+  sx={{
+    display: { xs: "none", md: "flex" },
+    flexGrow: 1,
+    justifyContent: "center",
+    gap: 2,
+    alignItems: "center",
+  }}
+  onMouseLeave={() => {
+    handleMenuClose();
+  }}
+>
+  {menuItems.map((item) => {
+    // Services dropdown
+    if (item.subMenu && item.name === "Services") {
+      return (
+        <Box key={item.name}>
+          <Button
+            onMouseEnter={handleMenuOpen("Services")}
+            onClick={handleMenuOpen("Services")}
+            sx={{
+              color: "#000",
+              textTransform: "none",
+              fontFamily: "Poppins",
+            }}
+            endIcon={<ExpandMoreIcon />}
+          >
+            {item.name}
+          </Button>
+
+          <Menu
+            anchorEl={anchorEl}
+            open={openMenu === "Services"}
+            onClose={handleMenuClose}
+            MenuListProps={{
+              onMouseEnter: () => setOpenMenu("Services"),
+              onMouseLeave: handleMenuClose,
+            }}
+            anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+            transformOrigin={{ vertical: "top", horizontal: "left" }}
+            sx={{
+              "& .MuiPaper-root": {
+                backgroundColor: "#000",
+                color: "#fff",
+                borderRadius: 0,
+              },
+            }}
+          >
+            {item.subMenu.map((subItem) => (
+              <MenuItem
+                key={subItem.name}
+                onClick={() => {
+                  navigate(subItem.link);
+                  handleMenuClose();
+                }}
+                sx={{
+                  fontSize: "1rem",
+                  py: 1.5,
+                  "&:hover": { backgroundColor: "rgba(255,255,255,0.1)" },
+                }}
+              >
+                <ListItemIcon>{subItem.icon}</ListItemIcon>
+                <ListItemText>{subItem.name}</ListItemText>
+              </MenuItem>
+            ))}
+          </Menu>
         </Box>
+      );
+    }
+
+    // Solutions dropdown
+    if (item.subMenu && item.name === "Solutions") {
+      return (
+        <Box key={item.name}>
+          <Button
+            onMouseEnter={handleMenuOpen("Solutions")}
+            onClick={handleMenuOpen("Solutions")}
+            sx={{
+              color: "#000",
+              textTransform: "none",
+              fontFamily: "Poppins",
+            }}
+            endIcon={<ExpandMoreIcon />}
+          >
+            {item.name}
+          </Button>
+
+          <Menu
+            anchorEl={anchorEl}
+            open={openMenu === "Solutions"}
+            onClose={handleMenuClose}
+            MenuListProps={{
+              onMouseEnter: () => setOpenMenu("Solutions"),
+              onMouseLeave: handleMenuClose,
+            }}
+            anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+            transformOrigin={{ vertical: "top", horizontal: "left" }}
+            sx={{
+              "& .MuiPaper-root": {
+                backgroundColor: "#000",
+                color: "#fff",
+                borderRadius: 0,
+              },
+            }}
+          >
+            {item.subMenu.map((subItem) => (
+              <MenuItem
+                key={subItem.name}
+                onClick={() => {
+                  navigate(subItem.link);
+                  handleMenuClose();
+                }}
+                sx={{
+                  fontSize: "1rem",
+                  py: 1.5,
+                  "&:hover": { backgroundColor: "rgba(255,255,255,0.1)" },
+                }}
+              >
+                <ListItemIcon>{subItem.icon}</ListItemIcon>
+                <ListItemText>{subItem.name}</ListItemText>
+              </MenuItem>
+            ))}
+          </Menu>
+        </Box>
+      );
+    }
+
+    // Technologies dropdown (uses NestedMenuItem inside)
+    if (item.subMenu && item.name === "Technologies") {
+      return (
+        <Box key={item.name}>
+          <Button
+            onMouseEnter={handleMenuOpen("Technologies")}
+            onClick={handleMenuOpen("Technologies")}
+            sx={{
+              color: "#000",
+              textTransform: "none",
+              fontFamily: "Poppins",
+            }}
+            endIcon={<ExpandMoreIcon />}
+          >
+            {item.name}
+          </Button>
+
+          <Menu
+            anchorEl={anchorEl}
+            open={openMenu === "Technologies"}
+            onClose={handleMenuClose}
+            MenuListProps={{
+              onMouseEnter: () => setOpenMenu("Technologies"),
+              onMouseLeave: handleMenuClose,
+            }}
+            anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+            transformOrigin={{ vertical: "top", horizontal: "left" }}
+            sx={{
+              "& .MuiPaper-root": {
+                backgroundColor: "#000",
+                color: "#fff",
+                borderRadius: 0,
+              },
+            }}
+          >
+            {item.subMenu.map((subItem) => (
+              <NestedMenuItem
+                key={subItem.name}
+                parent={subItem}
+                onClose={handleMenuClose}
+              />
+            ))}
+          </Menu>
+        </Box>
+      );
+    }
+
+    // simple link (no dropdown)
+    return (
+      <Button
+        key={item.name}
+        component="a"
+        href={item.link}
+        sx={{
+          color: "#000",
+          textTransform: "none",
+          fontFamily: "Poppins",
+        }}
+      >
+        {item.name}
+      </Button>
+    );
+  })}
+</Box>
+
 
         {/* Contact Button */}
         {!isMobile && (

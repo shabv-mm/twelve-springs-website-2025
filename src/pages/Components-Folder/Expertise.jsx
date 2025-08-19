@@ -115,7 +115,8 @@ const ServiceCard = ({ img, title, description }) => (
           // height: "260px",
           ":hover": {
             boxShadow: "4px 4px 12px 0px #0C507714",
-            border: "0.2px solid #09E4B1",
+            backgroundImage: "linear-gradient(120deg, #00cbcc, #00bbdf)",
+            color: "white",
           },
         }}
       >

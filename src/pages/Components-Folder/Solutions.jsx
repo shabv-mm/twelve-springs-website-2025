@@ -150,10 +150,10 @@ From product engineering to bespoke development, we specialise in delivering sec
                   px: 3,
                   backgroundColor: "#ffffffad",
 
-                  borderLeft: "2px solid #09E4B1",
+                  borderLeft: "2px solid #00cbcc ",
                   height: "150px",
                   ":hover": {
-                    backgroundColor: " #09E4B1",
+                    backgroundImage: "linear-gradient(120deg, #00cbcc, #00bbdf)",
                     color: " white",
                   },
                 }}

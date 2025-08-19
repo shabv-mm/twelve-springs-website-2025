@@ -306,7 +306,7 @@ const Aboutus = () => {
                   lineHeight: "30px",
                 }}
               >
-                <span style={{ color: "#00a1ff" }}>Contact Us</span> today to
+                <span style={{ color: "#00cbcc" }}>Contact Us</span> today to
                 discuss your requirements and let us help you achieve your
                 business goals.
               </Typography>
@@ -328,7 +328,7 @@ const Aboutus = () => {
                     fontFamily: "poppins",
                     lineHeight: "24px",
                     textTransform: "capitalize",
-                    backgroundColor: "#00a1ff",
+                    backgroundImage: "linear-gradient(120deg, #00cbcc, #00bbdf)",
                   }}
                   endIcon={
                     <img
@@ -509,7 +509,7 @@ const Aboutus = () => {
                 fontFamily: "poppins",
                 lineHeight: "24px",
                 textTransform: "capitalize",
-                backgroundColor: "#00a1ff",
+                backgroundColor: "#00cbcc",
               }}
               endIcon={
                 <img
