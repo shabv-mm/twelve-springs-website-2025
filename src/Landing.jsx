@@ -9,33 +9,74 @@ import {
   IconButton,
   Avatar,
   Select,
+  Paper,
+  Autocomplete,
+  ToggleButton,
+  ToggleButtonGroup,
+  Chip,
 } from "@mui/material";
+import moment from "moment-timezone"; // External dependency
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import PhoneIcon from "@mui/icons-material/Phone";
 import EmailIcon from "@mui/icons-material/Email";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import LanguageIcon from "@mui/icons-material/Language";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+// Assuming these local assets are available in your actual project structure
 import LinkedInIcon from "../src/assets/linkedin-outline.svg";
 import BrowserIcon from "../src/assets/browser.svg";
-import Logo from "../src/assets/logo-TS.svg";
+import Logo from "../src/assets/mainlogo.png"; // Your company logo
 import decor from "../src/assets/decor-TS.svg";
+
 import { Controller, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/material.css";
+import PhoneInput from "react-phone-input-2"; // External dependency
+import "react-phone-input-2/lib/material.css"; // External dependency
 
-import ReCAPTCHA from "react-google-recaptcha";
-import StoreContext from "./common/StoreContext";
-import api from "./lib/api";
+import ReCAPTCHA from "react-google-recaptcha"; // External dependency
+import StoreContext from "./common/StoreContext"; // Local dependency
+import api from "./lib/api"; // Local dependency
+
+// Get all timezone options using moment-timezone
+const getTimezoneOptions = () => {
+  return moment.tz.names().map(tz => {
+    const currentTime = moment.tz(tz);
+    const offset = currentTime.format('Z');
+    const abbreviation = currentTime.format('z');
+
+    return {
+      value: tz,
+      label: `${tz} (${abbreviation} ${offset})`,
+      offset: offset
+    };
+  });
+};
+
+const timezoneOptions = getTimezoneOptions();
 
 const Landing = () => {
   const [contactMethod, setContactMethod] = useState("");
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedTime, setSelectedTime] = useState("");
+  const [selectedTimezone, setSelectedTimezone] = useState({
+    value: "Asia/Kolkata",
+    label: "Asia/Kolkata (IST +05:30)",
+    offset: "+05:30"
+  }); // Default to Asia/Kolkata
+  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [timePeriod, setTimePeriod] = useState('AM'); // New state for AM/PM toggle
 
-  const { openToast } = useContext(StoreContext);
+  const { openToast } = useContext(StoreContext); // This will require StoreContext to be correctly set up.
   const [recaptchaValue, setRecaptchaValue] = useState(null);
+
+  // Get formatted time string
+  const getSelectedTime = () => {
+    return selectedTime;
+  };
 
   const schema = yup.object().shape({
     companyName: yup.string().required("Company Name is required"),
@@ -50,13 +91,13 @@ const Landing = () => {
             .string()
             .required("Phone is required")
             .min(10, "Minimum ten digits required")
-        : null,
+        : yup.string().notRequired(),
 
     // Email field validation
     email:
       contactMethod === "Email" || contactMethod === "Both"
         ? yup.string().email("Not a Valid Email").required("Email is required")
-        : null,
+        : yup.string().notRequired(),
   });
 
   const {
@@ -92,11 +133,14 @@ const Landing = () => {
   };
 
   const formAPI = async (e) => {
-    // console.log(recaptchaValue);
     try {
+      // Using original api.post as requested. This will require 'api' to be correctly configured.
       const { data, status } = await api.post("v1/auth/website-lead", {
         ...e,
         recaptcha: recaptchaValue,
+        selectedDate: selectedDate,
+        selectedTime: getSelectedTime(),
+        selectedTimezone: selectedTimezone,
       });
       if (status === 200) {
         console.log(data);
@@ -111,8 +155,10 @@ const Landing = () => {
         email: "",
         projectDescription: "",
       });
+      setSelectedDate(null);
+      setSelectedTime("");
     } catch (error) {
-      openToast("error", error.response.data.message);
+      openToast("error", error.response?.data?.message || "An unexpected error occurred.");
     }
   };
 
@@ -120,153 +166,137 @@ const Landing = () => {
     setRecaptchaValue(value);
   };
 
-  return (
-    <Box>
-      <Box
-        component="img"
-        src={decor}
-        alt="bottom left image"
-        sx={{
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          height: "auto",
-          width: {
-            xs: "0px",
-            md: "300px",
-          },
-        }}
-      />
-      <Grid
-        container
-        sx={{
-          minHeight: "100vh",
-          background: "linear-gradient(63.18deg, #34073D 0%, #145277 100%)",
-        }}
-      >
-        {/* Left Section */}
-        <Grid
-          item
-          xs={12}
-          sm={5}
-          sx={{
-            color: "white",
-            display: "flex",
-            flexDirection: "column",
-            //   alignItems: "center",
-            justifyContent: "center",
-            padding: 5,
-            gap: 3,
-          }}
-        >
-          <a href="https://www.twelvesprings.uk" target="_blank">
-            <img src={Logo} style={{ scale: "1" }} />
-          </a>{" "}
-          <Typography
-            variant="h4"
-            fontWeight="bold"
-            style={{ fontWeight: 200, fontSize: "64px", lineHeight: "67px" }}
-          >
-            Request <span style={{ fontWeight: 400 }}>Quote</span>
-          </Typography>
-          <Box>
-            <Typography variant="body1" sx={{ fontSize: "20px" }}>
-              Please fill in the form with your project details, and we'll
-              arrange a free consultation call to discuss your needs and provide
-              a quote.
-            </Typography>
-          </Box>
-          <Box
-            gap={1}
-            display={{ xs: "none", sm: "flex" }}
-            flexDirection={"column"}
-          >
-            <ContactInfoItem icon={EmailIcon} label="info@twelvesprings.uk" />
-            <ContactInfoItem
-              icon={LocationOnIcon}
-              label="71-75 Shelton Street, Covent Garden, London, WC2H 9JQ"
-            />
-          </Box>
-          <Box display={{ xs: "none", sm: "flex" }} mt={4} gap={2}>
-            <Avatar sx={{ bgcolor: "white", width: 32, height: 32 }}>
-              <a
-                href="https://www.linkedin.com/company/twelve-springs-limited-london/?viewAsMember=true"
-                target="_blank"
-              >
-                <img src={LinkedInIcon} style={{ scale: "0.45" }} />
-              </a>
-            </Avatar>
-            <Avatar
-              sx={{
-                bgcolor: "white",
-                width: 32,
-                height: 32,
-              }}
-            >
-              <a href="https://www.twelvesprings.uk" target="_blank">
-                <img src={BrowserIcon} style={{ scale: "0.65" }} />
-              </a>
-            </Avatar>
-          </Box>
-        </Grid>
+  // Calendar functionality
+  const getDaysInMonth = (date) => {
+    return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+  };
 
-        {/* Right Section - Form */}
-        <Grid
-          item
-          xs={12}
-          sm={7}
+  const getFirstDayOfMonth = (date) => {
+    return new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+  };
+
+  const generateCalendar = () => {
+    const daysInMonth = getDaysInMonth(currentMonth);
+    const firstDay = getFirstDayOfMonth(currentMonth);
+    const days = [];
+    const today = new Date();
+
+    // Empty cells for days before the first day of the month
+    for (let i = 0; i < firstDay; i++) {
+      days.push(<Box key={`empty-${i}`} sx={{ width: 40, height: 40 }} />);
+    }
+
+    // Days of the month
+    for (let day = 1; day <= daysInMonth; day++) {
+      const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
+      const isToday = date.toDateString() === today.toDateString();
+      const isSelected = selectedDate && date.toDateString() === selectedDate.toDateString();
+      const isPast = date < today.setHours(0, 0, 0, 0);
+
+      days.push(
+        <Box
+          key={day}
           sx={{
-            my: { xs: 0, sm: 2 },
+            width: 40,
+            height: 40,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            cursor: isPast ? "not-allowed" : "pointer",
+            borderRadius: "50%",
+            backgroundColor: isSelected ? "#2563eb" : isToday ? "#e0e7ff" : "transparent",
+            color: isSelected ? "white" : isPast ? "#9ca3af" : isToday ? "#2563eb" : "inherit",
+            "&:hover": {
+              backgroundColor: !isPast && !isSelected ? "#f3f4f6" : undefined,
+            },
           }}
+          onClick={() => !isPast && setSelectedDate(date)}
         >
-          <Box
-            width={{ xs: "95%", sm: "90%", md: "80%" }}
-            bgcolor="white"
-            sx={{ borderRadius: "7px" }}
-            boxShadow="0px 0px 20px 1px #0000004D"
-          >
-            <Box
-              sx={{
-                borderTopLeftRadius: 5,
-                borderTopRightRadius: 5,
-                backgroundColor: "#291640",
-                p: 1.5,
-              }}
-            >
-              {" "}
-              <Typography
-                variant="h6"
-                fontWeight="500"
-                textAlign={"center"}
-                fontSize={"21px"}
-                color={"#eee"}
-              >
-                Your Company Information
-              </Typography>
-            </Box>
-            <Box
-              component="form"
-              onSubmit={handleSubmit(onSubmit)}
-              sx={{
-                mt: 1,
-                gap: 2,
-                display: "flex",
-                flexDirection: "column",
-              }}
-              px={4}
-              py={2}
-            >
-              <CustomTextField
-                label="Company Name*"
-                name="companyName"
+          {day}
+        </Box>
+      );
+    }
+
+    return days;
+  };
+
+  const navigateMonth = (direction) => {
+    setCurrentMonth(prev => {
+      const newMonth = new Date(prev);
+      newMonth.setMonth(prev.getMonth() + direction);
+      return newMonth;
+    });
+  };
+
+  // Generate base time slots (e.g., "1:00", "1:30")
+  const generateBaseTimeSlots = () => {
+    const slots = [];
+    for (let hour = 1; hour <= 12; hour++) {
+      slots.push(`${hour}:00`);
+      slots.push(`${hour}:30`);
+    }
+    return slots;
+  };
+
+  const baseTimeSlots = generateBaseTimeSlots();
+
+  const monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+
+  const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+  return (
+    <Box sx={{ minHeight: "100vh", bgcolor: "#f8fafc" }}>
+      {/* Logo Header */}
+      <Box sx={{ p: 4, bgcolor: "white", borderBottom: "1px solid #e2e8f0", boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.1)" }}>
+        <Box sx={{ maxWidth: 1200, mx: "auto", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            {/* Displaying the actual Logo image */}
+            <img src={Logo} style={{ height: "50px", marginRight: "16px" }} alt="Twelve Springs Logo" />
+          </Box>
+        </Box>
+      </Box>
+
+      <Grid container sx={{ minHeight: "calc(100vh - 110px)" }}>
+        {/* Left Section - Form */}
+        <Grid item xs={12} md={7} sx={{ p: 4 }}>
+          <Box sx={{ maxWidth: 600, mx: "auto" }}>
+            <Typography variant="h4" fontWeight="600" sx={{ mb: 1, color: "#1e293b" }}>
+              Your Path to Clarity Starts Here
+            </Typography>
+            <Typography variant="body1" sx={{ mb: 4, color: "#64748b" }}>
+              Please fill in the form below and we will be in touch.
+            </Typography>
+
+            <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <CustomTextField
+                    label="Name *"
+                    name="name"
+                    control={control}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <CustomTextField
+                    label="Email *"
+                    name="email"
+                    control={control}
+                  />
+                </Grid>
+              </Grid>
+
+              <PhoneFieldController // This component uses PhoneInput, which may cause errors in Canvas
+                name="phone"
                 control={control}
+                label="Phone *"
               />
+
               <CustomTextField
-                label="Your Name*"
-                name="name"
+                label="Company Name *"
+                name="companyName"
                 control={control}
               />
 
@@ -275,17 +305,19 @@ const Landing = () => {
                 control={control}
                 render={({ field, fieldState: { error } }) => (
                   <div>
-                    <Typography
-                      color={error ? "error" : "black"}
-                      sx={{ fontWeight: 500, py: 0.5 }}
-                    >
-                      How Did You Hear About Us?*
-                    </Typography>{" "}
+                    <Typography sx={{ fontWeight: 500, mb: 1, color: "#374151" }}>
+                      How did you hear about us? *
+                    </Typography>
                     <Select
                       {...field}
                       variant="outlined"
                       fullWidth
-                      sx={{ height: "45px" }}
+                      sx={{
+                        height: "48px",
+                        "& .MuiOutlinedInput-notchedOutline": {
+                          borderColor: "#d1d5db",
+                        },
+                      }}
                       error={!!error}
                       onChange={(e) => {
                         setValue("source", e.target.value);
@@ -293,63 +325,60 @@ const Landing = () => {
                       }}
                       displayEmpty
                     >
-                      <MenuItem value="none" disabled>
+                      <MenuItem value="" disabled>
                         Please Select
                       </MenuItem>
-                      <MenuItem value="search-engine">
-                        Search Engine (e.g. Google)
-                      </MenuItem>
-                      <MenuItem value="social-media">
-                        Social Media (e.g. Facebook, Twitter, Instagram)
-                      </MenuItem>
+                      <MenuItem value="search-engine">Search Engine (e.g. Google)</MenuItem>
+                      <MenuItem value="social-media">Social Media (e.g. Facebook, Twitter, Instagram)</MenuItem>
                       <MenuItem value="word">Word of Mouth</MenuItem>
-                      <MenuItem value="advert">
-                        Google/Online Advertisement
-                      </MenuItem>
+                      <MenuItem value="advert">Google/Online Advertisement</MenuItem>
                       <MenuItem value="referral">Customer Referral</MenuItem>
                     </Select>
                     {error && (
-                      <Typography color="error" fontSize={"12px"} pt={0.5}>
+                      <Typography color="error" fontSize={"12px"} sx={{ mt: 0.5 }}>
                         {error.message}
                       </Typography>
                     )}
                   </div>
                 )}
               />
+
               <Controller
                 name="contactMethod"
                 control={control}
                 render={({ field, fieldState: { error } }) => (
                   <div>
-                    <Typography
-                      color={error ? "error" : "black"}
-                      sx={{ fontWeight: 500, py: 0.5 }}
-                    >
-                      How Should We Contact You?*
-                    </Typography>{" "}
+                    <Typography sx={{ fontWeight: 500, mb: 1, color: "#374151" }}>
+                      Subject *
+                    </Typography>
                     <Select
                       {...field}
                       variant="outlined"
                       fullWidth
                       error={!!error}
-                      sx={{ height: "45px" }}
+                      sx={{
+                        height: "48px",
+                        "& .MuiOutlinedInput-notchedOutline": {
+                          borderColor: "#d1d5db",
+                        },
+                      }}
                       onChange={(e) => {
                         field.onChange(e);
-
                         setValue("contactMethod", e.target.value);
                         setContactMethod(e.target.value);
                       }}
                       displayEmpty
                     >
-                      <MenuItem value="none" disabled>
+                      <MenuItem value="" disabled>
                         Please Select
                       </MenuItem>
-                      <MenuItem value="Phone">Phone</MenuItem>
-                      <MenuItem value="Email">Email</MenuItem>
-                      <MenuItem value="Both">Both</MenuItem>
+                      <MenuItem value="consultation">Free Consultation</MenuItem>
+                      <MenuItem value="project-inquiry">Project Inquiry</MenuItem>
+                      <MenuItem value="general">General Question</MenuItem>
+                      <MenuItem value="support">Support</MenuItem>
                     </Select>
                     {error && (
-                      <Typography color="error" fontSize={"12px"} pt={0.5}>
+                      <Typography color="error" fontSize={"12px"} sx={{ mt: 0.5 }}>
                         {error.message}
                       </Typography>
                     )}
@@ -357,135 +386,260 @@ const Landing = () => {
                 )}
               />
 
-              {watchContactMethod === "Phone" && (
-                <PhoneFieldController
-                  name="phone"
-                  control={control}
-                  label="Phone"
-                />
-              )}
-              {watchContactMethod === "Email" && (
-                <CustomTextField
-                  label="Email*"
-                  name="email"
-                  control={control}
-                />
-              )}
-              {watchContactMethod === "Both" && (
-                <Box sx={{ display: "flex", gap: 2 }}>
-                  <Grid container spacing={2}>
-                    <Grid item xs={12} sm={6}>
-                      <PhoneFieldController
-                        name="phone"
-                        control={control}
-                        label="Phone"
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <CustomTextField
-                        label="Email*"
-                        name="email"
-                        control={control}
-                      />
-                    </Grid>
-                  </Grid>
-                </Box>
-              )}
-
               <CustomTextField
-                label="Description*"
+                label="Project Description (Optional)"
                 name="projectDescription"
                 control={control}
                 multiline
                 rows={4}
-                placeholder="Tell us about your project.."
+                placeholder="Tell us about your project..."
               />
-              <Box
-                sx={{
-                  display: "flex",
-                  flexGrow: "1",
-                  justifyContent: "flex-start",
-                  // mt: 2,
-                }}
-              >
-                <ReCAPTCHA
-                  sitekey="6Leogv0pAAAAAB3fEmqj88P-Q4pDnWYNAaZ7iliN" // Replace with your actual site key
+
+              <Box sx={{ display: "flex", justifyContent: "flex-start" }}>
+                <ReCAPTCHA // This component may cause errors in Canvas
+                  sitekey="6Leogv0pAAAAAB3fEmqj88P-Q4pDnWYNAaZ7iliN"
                   onChange={onRecaptchaChange}
                 />
               </Box>
-              <Box display="flex" justifyContent="flex-end">
-                <Button
-                  type="submit"
-                  duration={1000}
-                  variant="contained"
-                  sx={{
-                    borderRadius: 0,
-                    px: 3,
-                    py: 1,
-                    fontWeight: "400",
-                    fontSize: { md: "10px", lg: "16px" },
-                    fontFamily: "poppins",
-                    lineHeight: "24px",
-                    textTransform: "capitalize",
-                    backgroundColor: "black",
-                  }}
-                >
-                  Submit
-                </Button>
-              </Box>
+
+              <Button
+                type="submit"
+                variant="contained"
+                size="large"
+                sx={{
+                  bgcolor: "#1e293b",
+                  color: "white",
+                  py: 1.5,
+                  borderRadius: 2,
+                  textTransform: "none",
+                  fontSize: "16px",
+                  fontWeight: 600,
+                  "&:hover": {
+                    bgcolor: "#334155",
+                  },
+                }}
+              >
+                Submit
+              </Button>
             </Box>
           </Box>
         </Grid>
-        <Box
-          sx={{
-            color: "white",
-            display: { xs: "flex", sm: "none" },
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: 5,
-            gap: 2,
-          }}
-        >
-          <Box
-            gap={1}
-            display={{ xs: "flex", sm: "none" }}
-            flexDirection={"column"}
-          >
-            <ContactInfoItem icon={EmailIcon} label="info@twelvesprings.uk" />
-            <ContactInfoItem
-              icon={LocationOnIcon}
-              label="71-75 Shelton Street, Covent Garden, London, WC2H 9JQ"
-            />
+
+        {/* Right Section - Calendar */}
+        <Grid item xs={12} md={5} sx={{ bgcolor: "white", p: 4 }}>
+          <Box sx={{ maxWidth: 400, mx: "auto" }}>
+            <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
+              <CalendarTodayIcon sx={{ mr: 2, color: "#2563eb" }} />
+              <Typography variant="h5" fontWeight="600" sx={{ color: "#1e293b" }}>
+                Book a Meeting
+              </Typography>
+            </Box>
+
+            <Typography variant="body2" sx={{ mb: 4, color: "#64748b" }}>
+              Select your timezone, date and time for the meeting at your convenience
+            </Typography>
+
+            {/* Timezone Selection */}
+            <Box sx={{ mb: 4 }}>
+              <Typography variant="subtitle1" fontWeight="600" sx={{ mb: 2, color: "#374151" }}>
+                <AccessTimeIcon sx={{ mr: 1, fontSize: 18, verticalAlign: "middle" }} />
+                Select Timezone
+              </Typography>
+              <Autocomplete
+                value={selectedTimezone}
+                onChange={(event, newValue) => {
+                  setSelectedTimezone(newValue);
+                  // Reset selected time when timezone changes
+                  setSelectedTime("");
+                }}
+                options={timezoneOptions}
+                getOptionLabel={(option) => option?.label || ''}
+                isOptionEqualToValue={(option, value) => option.value === value.value}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    variant="outlined"
+                    placeholder="Search timezone (e.g., Asia/Kolkata)..."
+                    sx={{
+                      "& .MuiOutlinedInput-root": {
+                        height: "48px",
+                        "& .MuiOutlinedInput-notchedOutline": {
+                          borderColor: "#d1d5db",
+                        },
+                      },
+                    }}
+                  />
+                )}
+                renderOption={(props, option) => (
+                  <Box component="li" {...props}>
+                    <Typography variant="body2">
+                      {option.label}
+                    </Typography>
+                  </Box>
+                )}
+                sx={{ mb: 2 }}
+                filterOptions={(options, { inputValue }) =>
+                  options.filter(option =>
+                    option.value.toLowerCase().includes(inputValue.toLowerCase()) ||
+                    option.label.toLowerCase().includes(inputValue.toLowerCase())
+                  )
+                }
+              />
+              <Typography variant="caption" sx={{ color: "#64748b" }}>
+                Current time in {selectedTimezone?.value}: {moment.tz(selectedTimezone?.value).format('h:mm A')}
+              </Typography>
+            </Box>
+
+            {/* Calendar Header */}
+            <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 3 }}>
+              <IconButton onClick={() => navigateMonth(-1)} sx={{ color: "#64748b" }}>
+                <ArrowBackIosIcon fontSize="small" />
+              </IconButton>
+              <Typography variant="h6" fontWeight="600" sx={{ color: "#1e293b" }}>
+                {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
+              </Typography>
+              <IconButton onClick={() => navigateMonth(1)} sx={{ color: "#64748b" }}>
+                <ArrowForwardIosIcon fontSize="small" />
+              </IconButton>
+            </Box>
+
+            {/* Calendar Grid */}
+            <Box sx={{ mb: 4 }}>
+              {/* Day headers */}
+              <Grid container spacing={0} sx={{ mb: 1 }}>
+                {dayNames.map((day) => (
+                  <Grid item xs key={day} sx={{ textAlign: "center" }}>
+                    <Typography variant="caption" fontWeight="600" color="#64748b">
+                      {day}
+                    </Typography>
+                  </Grid>
+                ))}
+              </Grid>
+              {/* Calendar days */}
+              <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                {generateCalendar()}
+              </Box>
+            </Box>
+
+            {/* Time Period Toggle (AM/PM) */}
+            {selectedDate && (
+              <Box sx={{ mb: 3 }}>
+                <Typography variant="subtitle1" fontWeight="600" sx={{ mb: 2, color: "#374151" }}>
+                  <AccessTimeIcon sx={{ mr: 1, fontSize: 18, verticalAlign: "middle" }} />
+                  Select Time Period
+                </Typography>
+                <ToggleButtonGroup
+                  value={timePeriod}
+                  exclusive
+                  onChange={(event, newPeriod) => {
+                    if (newPeriod !== null) {
+                      setTimePeriod(newPeriod);
+                      setSelectedTime(""); // Reset selected time when period changes
+                    }
+                  }}
+                  aria-label="time period"
+                  sx={{
+                    width: '80%',
+                    justifyContent: 'center',
+                    gap: 1,
+                    "& .MuiToggleButton-root": {
+                      flexGrow: 1,
+                      border: '1px solid #d1d5db',
+                      borderRadius: '8px',
+                      textTransform: 'none',
+                      fontWeight: 500,
+                      color: '#374151',
+                      '&.Mui-selected': {
+                        backgroundColor: '#2563eb',
+                        color: 'white',
+                        '&:hover': {
+                          backgroundColor: '#1d4ed8',
+                        },
+                      },
+                      '&:hover': {
+                        backgroundColor: '#f3f4f6',
+                      },
+                    },
+                  }}
+                >
+                  <ToggleButton value="AM" aria-label="am">
+                    🌅  (AM)
+                  </ToggleButton>
+                  <ToggleButton value="PM" aria-label="pm">
+                    🌆  (PM)
+                  </ToggleButton>
+                </ToggleButtonGroup>
+              </Box>
+            )}
+
+            {/* Time Selection */}
+            {selectedDate && (
+              <Box>
+                <Typography variant="subtitle1" fontWeight="600" sx={{ mb: 3, color: "#374151" }}>
+                  <AccessTimeIcon sx={{ mr: 1, fontSize: 18, verticalAlign: "middle" }} />
+                  Select Available Time Slots
+                </Typography>
+
+                <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1 }}>
+                  {baseTimeSlots.map((baseTime) => {
+                    const fullTime = `${baseTime} ${timePeriod}`;
+                    return (
+                      <Button
+                        key={fullTime}
+                        variant={selectedTime === fullTime ? "contained" : "outlined"}
+                        size="small"
+                        onClick={() => setSelectedTime(fullTime)}
+                        sx={{
+                          py: 1,
+                          px: 2,
+                          fontSize: "12px",
+                          fontWeight: 500,
+                          bgcolor: selectedTime === fullTime ? "#2563eb" : "transparent",
+                          borderColor: selectedTime === fullTime ? "#2563eb" : "#d1d5db",
+                          color: selectedTime === fullTime ? "white" : "#374151",
+                          "&:hover": {
+                            bgcolor: selectedTime === fullTime ? "#1d4ed8" : "#f3f4f6",
+                            borderColor: selectedTime === fullTime ? "#1d4ed8" : "#9ca3af",
+                          },
+                          transition: "all 0.2s ease-in-out",
+                        }}
+                      >
+                        {fullTime}
+                      </Button>
+                    );
+                  })}
+                </Box>
+
+                {/* Selected Time Display */}
+                {selectedTime && (
+                  <Paper sx={{ p: 3, bgcolor: "#f0f9ff", border: "1px solid #bae6fd", borderRadius: 2, mt: 4 }}>
+                    <Typography variant="body2" sx={{ color: "#0369a1", fontWeight: 500, mb: 1 }}>
+                      📅 Meeting Scheduled
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: "#0369a1" }}>
+                      <strong>Date:</strong> {selectedDate.toLocaleDateString('en-US', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                      })}
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: "#0369a1" }}>
+                      <strong>Time:</strong> {selectedTime}
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: "#0369a1" }}>
+                      <strong>Timezone:</strong> {selectedTimezone?.label}
+                    </Typography>
+                  </Paper>
+                )}
+              </Box>
+            )}
           </Box>
-          <Box display={{ xs: "flex", sm: "none" }} mt={4} gap={2}>
-            <Avatar sx={{ bgcolor: "white", width: 32, height: 32 }}>
-              <img src={LinkedInIcon} style={{ scale: "0.45" }} />
-            </Avatar>
-            <Avatar
-              sx={{
-                bgcolor: "white",
-                width: 32,
-                height: 32,
-              }}
-            >
-              <img src={BrowserIcon} style={{ scale: "0.65" }} />
-            </Avatar>
-          </Box>
-        </Box>
+        </Grid>
       </Grid>
     </Box>
   );
 };
-
-const ContactInfoItem = ({ icon: Icon, label }) => (
-  <Box display="flex" alignItems="center" gap={2} mt={1}>
-    <Avatar sx={{ bgcolor: "white", width: 32, height: 32 }}>
-      <Icon sx={{ color: "black", scale: "0.8" }} />
-    </Avatar>
-    <Typography>{label}</Typography>
-  </Box>
-);
 
 const CustomTextField = ({
   label,
@@ -500,38 +654,28 @@ const CustomTextField = ({
     control={control}
     render={({ field, fieldState: { error } }) => (
       <div>
-        <Typography
-          color={error ? "error" : "black"}
-          sx={{ fontWeight: 500, py: 0.5 }}
-        >
+        <Typography sx={{ fontWeight: 500, mb: 1, color: "#374151" }}>
           {label}
         </Typography>
         <TextField
           {...field}
           variant="outlined"
           fullWidth
-          type={name === "phone" ? "number" : "text"}
           multiline={multiline}
           placeholder={placeholder}
           error={!!error}
-          //   helperText={error ? error.message : ""}
           sx={{
             "& .MuiOutlinedInput-root": {
-              height: name !== "projectDescription" && "45px",
-            },
-            "input::-webkit-outer-spin-button, input::-webkit-inner-spin-button":
-              {
-                WebkitAppearance: "none",
-                margin: 0,
+              minHeight: name === "projectDescription" ? "auto" : "48px",
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderColor: "#d1d5db",
               },
-            "input[type=number]": {
-              MozAppearance: "textfield",
             },
           }}
           {...props}
         />
         {error && (
-          <Typography color="error" fontSize={"12px"} pt={0.5}>
+          <Typography color="error" fontSize={"12px"} sx={{ mt: 0.5 }}>
             {error.message}
           </Typography>
         )}
@@ -547,33 +691,29 @@ function PhoneFieldController({ name, control, label }) {
       control={control}
       render={({ field, fieldState: { error } }) => (
         <div>
-          <Typography
-            color={error ? "error" : "black"}
-            sx={{ fontWeight: 500, py: 0.5 }}
-          >
+          <Typography sx={{ fontWeight: 500, mb: 1, color: "#374151" }}>
             {label}
           </Typography>
-          <PhoneInput
+          <PhoneInput // This component uses react-phone-input-2
             {...field}
             country="gb"
             onChange={field.onChange}
             value={field.value}
             inputStyle={{
               width: "100%",
-              height: "45px",
-              paddingLeft: "50px", // Adjust this based on flag icon width to align text
-              lineHeight: "45px",
-              borderRadius: 3,
-              fontFamily: "Poppins",
-              opacity: "0.6",
-              border: error ? "1px solid #d32f2f" : "1px solid #9c9c9c",
-              // marginBottom: errors?.phone ? "0px" : "10px",
+              height: "48px",
+              paddingLeft: "50px",
+              lineHeight: "48px",
+              borderRadius: 8,
+              fontFamily: "inherit",
+              border: error ? "1px solid #ef4444" : "1px solid #d1d5db",
               boxShadow: "none",
+              fontSize: "16px",
             }}
             specialLabel=""
           />
           {error && (
-            <Typography color="error" fontSize={"12px"} pt={0.5}>
+            <Typography color="error" fontSize={"12px"} sx={{ mt: 0.5 }}>
               {error.message}
             </Typography>
           )}

@@ -206,7 +206,7 @@ const TechnologyPage = () => {
                 sx={{
                   borderRadius: 0,
                   backgroundColor:
-                    selected === category ? "#00A1FF" : "inherit",
+                    selected === category ? "#09E4B1" : "inherit",
                   color: selected === category ? "primary" : "white",
                   borderColor: selected === category ? " #424242" : " #424242",
                   fontWeight: selected === category ? " 300" : " 200",
@@ -229,7 +229,7 @@ const TechnologyPage = () => {
                 sx={{
                   backgroundColor: "#232323",
                   textAlign: "center",
-                  borderBottom: "1px solid #00A1FF",
+                  borderBottom: "1px solid #09E4B1",
                   p: 5,
                   fontFamily: "poppins",
                   fontWeight: "300",
