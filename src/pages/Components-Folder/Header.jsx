@@ -46,7 +46,16 @@ const Header = () => {
     <AppBar
       position="static"
       sx={{
-        backgroundColor: "#fff",
+        // Replaced solid background color with the repeating gradient
+        background: `
+          repeating-linear-gradient(
+            180deg,
+            #FFF7EE 0%,
+            #FFFFFF 50%,
+            #FFF7EE 100%
+          )
+        `,
+        backgroundSize: "100% 200vh", // Match the dashboard
         color: "#000",
         boxShadow: "none",
         px: { xs: 2, md: 2, lg: 10 },
