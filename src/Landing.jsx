@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 
 // Ensure these paths are correct in your project
-import Logo from "../src/assets/mainlogo.png";
+// import Logo from "../src/assets/mainlogo.png"; // Removed as it's not being used here, and to avoid potential path issues
 import { Controller, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -21,22 +21,17 @@ import "react-phone-input-2/lib/material.css";
 import ReCAPTCHA from "react-google-recaptcha";
 import StoreContext from "./common/StoreContext";
 import api from "./lib/api";
-import Footer from "./pages/Components-Folder/Footer";
+import Footer from "./pages/Components-Folder/Footer"; // Assuming Footer is correctly imported and available
+
+// You might need to adjust the path to your logo if it's not directly in src/assets
+import mainlogoImg from "../src/assets/mainlogo.png";
 
 const Landing = () => {
     const [recaptchaValue, setRecaptchaValue] = useState(null);
     const { openToast } = useContext(StoreContext);
 
-    useEffect(() => {
-        const script = document.createElement('script');
-        script.src = "https://assets.calendly.com/assets/external/widget.js";
-        script.async = true;
-        document.body.appendChild(script);
-
-        return () => {
-            document.body.removeChild(script);
-        };
-    }, []);
+    // Removed the useEffect that loaded Calendly's external widget.js
+    // as we are now directly embedding the iframe.
 
     const schema = yup.object().shape({
         name: yup.string().required("Name is required"),
@@ -107,13 +102,14 @@ const Landing = () => {
                     )
                 `,
                 backgroundSize: "100% 200vh",
-                overflowY: "hidden", // Hide vertical scrollbar for the main container
+                // Removed overflowY: "hidden" from here to allow page scrolling if content exceeds viewport
             }}
         >
             {/* Logo Header */}
             <Box sx={{ p: 4, px: { xs: 2, sm: 4, md: 6, lg: 8 } }}>
                 <Box sx={{ maxWidth: 1200, mx: "auto" }}>
-                    <img src={Logo} style={{ height: "50px" }} alt="Twelve Springs Logo" />
+                    {/* Updated logo source to reflect common asset path */}
+                    <img src={mainlogoImg} style={{ height: "50px" }} alt="Twelve Springs Logo" />
                 </Box>
             </Box>
 
@@ -129,7 +125,7 @@ const Landing = () => {
                 }}
             >
                 {/* Left Section - Form */}
-                <Grid item xs={12} md={5.5}>
+                <Grid item xs={12} md={5}> {/* UPDATED: Changed md from 5.5 to 5 */}
                     <Box
                         component="form"
                         onSubmit={handleSubmit(onSubmit)}
@@ -278,15 +274,14 @@ const Landing = () => {
                 </Grid>
 
                 {/* Right Section - Calendly Widget */}
-                <Grid item xs={12} md={5.5}>
+                <Grid item xs={12} md={6}> {/* UPDATED: Changed md from 5.5 to 6 */}
                     <Paper
                         sx={{
                             p: { xs: 2, sm: 3, md: 4 },
                             borderRadius: 2,
                             boxShadow: 3,
                             bgcolor: 'white',
-                            // The container for the calendly widget should have hidden overflow
-                            overflow: 'hidden',
+                            overflow: 'hidden', // The container for the calendly widget should have hidden overflow
                         }}
                     >
                         <Typography variant="h5" fontWeight="600" sx={{ mb: 2, color: "#1e293b", textAlign: 'center' }}>
@@ -295,11 +290,13 @@ const Landing = () => {
                         <Typography variant="body2" sx={{ mb: 4, color: "#64748b", textAlign: 'center' }}>
                             Select a convenient time for a free consultation.
                         </Typography>
-                        <div
-  className="calendly-inline-widget"
-  data-url="https://calendly.com/shabbir-j6jo/leads"
-  style={{ minWidth: "380px", height: "800px" }}
-></div>
+                        {/* Replaced Calendly div with direct iframe embedding */}
+                        <iframe
+                            src="https://calendly.com/shabbir-j6jo/leads"
+                            style={{ border: "none", minWidth: "380px", height: "800px", width: "100%" }}
+                            sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
+                            title="Calendly Scheduling"
+                        ></iframe>
                     </Paper>
                 </Grid>
             </Grid>
@@ -310,7 +307,7 @@ const Landing = () => {
 };
 
 // =======================
-// Helper Components
+// Helper Components (No changes to these unless specified)
 // =======================
 
 const CustomTextField = ({ label, control, name, multiline, placeholder, optional, ...props }) => (
@@ -327,6 +324,7 @@ const CustomTextField = ({ label, control, name, multiline, placeholder, optiona
                     variant="outlined"
                     fullWidth
                     multiline={multiline}
+                    rows={multiline ? props.rows : undefined} // Ensure rows prop is passed for multiline
                     placeholder={placeholder}
                     error={!!error}
                     sx={{

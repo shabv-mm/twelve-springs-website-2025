@@ -16,6 +16,7 @@ import { Divider, ListItemText, ListItemIcon, Collapse } from "@mui/material";
 // Import MUI Icons
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import WbIncandescentOutlinedIcon from "@mui/icons-material/WbIncandescentOutlined";
 import CodeOutlinedIcon from "@mui/icons-material/CodeOutlined";
 import DnsOutlinedIcon from "@mui/icons-material/DnsOutlined";
@@ -171,6 +172,7 @@ const Header = () => {
     };
 
     const menuItems = [
+        { name: "Home", link: "/", icon: <HomeOutlinedIcon /> },
         {
             name: "Services",
             path: "services",
@@ -278,10 +280,10 @@ const Header = () => {
                 disableGutters
                 sx={{
                     display: "flex",
-                    flexDirection: { xs: "column", md: "row" }, // Original layout: column on xs, row on md+
-                    justifyContent: { md: "flex-start", lg: "center" }, // Original layout: flex-start on md, center on lg+
-                    alignItems: { xs: "stretch", md: "center" }, // Original layout: stretch on xs, center on md+
-                    gap: { md: 1, lg: 15 }, // Original layout gaps
+                    flexDirection: { xs: "column", md: "row" },
+                    justifyContent: { md: "flex-start", lg: "flex-start" }, // Changed from center to flex-start
+                    alignItems: { xs: "stretch", md: "center" },
+                    gap: { md: 1, lg: 8 }, // Reduced gap from 15 to 8
                     flexWrap: "wrap",
                 }}
             >
@@ -291,7 +293,8 @@ const Header = () => {
                         display: "flex",
                         justifyContent: "space-between",
                         alignItems: "center",
-                        width: { xs: "100%", md: "auto" }, // Take full width on mobile
+                        width: { xs: "100%", md: "auto" },
+                        ml: { xs: 0, md: 0, lg: 4 }, // Add left margin ONLY for large screens
                     }}
                 >
                     <Box component={RouterLink} to="/">
@@ -314,10 +317,12 @@ const Header = () => {
                 <Box
                     sx={{
                         display: { xs: "none", md: "flex" },
-                        flexGrow: 1, // Allows this box to take available space
-                        justifyContent: "space-evenly", // Original layout for menu items
-                        gap: 2,
+                        flex: 1, // Changed from flexGrow: 1 to flex: 1
+                        justifyContent: "flex-start", // Changed from space-evenly to flex-start
+                        gap: 1, // Reduced gap from 2 to 1
                         alignItems: "center",
+                        ml: { lg: 2 }, // Add left margin for better spacing
+                        minWidth: 0, // Prevent flex item from growing too large
                     }}
                     onMouseLeave={handleMenuClose}
                 >
@@ -332,7 +337,9 @@ const Header = () => {
                                             color: "#000",
                                             textTransform: "none",
                                             fontFamily: "Poppins",
-                                            fontWeight:500
+                                            fontWeight: 500,
+                                            minWidth: "auto", // Allow buttons to be smaller
+                                            px: 2, // Reduced horizontal padding
                                         }}
                                         endIcon={<ExpandMoreIcon />}
                                     >
@@ -353,27 +360,24 @@ const Header = () => {
                                                 backgroundColor: "#000",
                                                 color: "#fff",
                                                 borderRadius: 0,
-                                                maxHeight: '70vh', // Set a max height for desktop dropdowns
-                                                overflowY: 'auto', // Allow scrolling
-                                                // Custom scrollbar styles for WebKit browsers
+                                                maxHeight: '70vh',
+                                                overflowY: 'auto',
                                                 "&::-webkit-scrollbar": {
-                                                    width: "5px", // Very thin scrollbar
+                                                    width: "5px",
                                                 },
                                                 "&::-webkit-scrollbar-track": {
-                                                    background: "transparent", // Transparent track
+                                                    background: "transparent",
                                                 },
                                                 "&::-webkit-scrollbar-thumb": {
-                                                    background: "rgba(255, 255, 255, 0.15)", // Subtle grey/white thumb on black
+                                                    background: "rgba(255, 255, 255, 0.15)",
                                                     borderRadius: "10px",
                                                 },
                                                 "&::-webkit-scrollbar-thumb:hover": {
-                                                    background: "rgba(255, 255, 255, 0.3)", // Slightly more visible on hover
+                                                    background: "rgba(255, 255, 255, 0.3)",
                                                 },
-                                                // Custom scrollbar styles for Firefox
-                                                "scrollbar-width": "thin", // Makes scrollbar thin
-                                                "scrollbar-color": "rgba(255, 255, 255, 0.15) transparent", // thumb and track color for Firefox
-                                                // For IE/Edge
-                                                "-ms-overflow-style": "scrollbar", // Show scrollbar
+                                                "scrollbar-width": "thin",
+                                                "scrollbar-color": "rgba(255, 255, 255, 0.15) transparent",
+                                                "-ms-overflow-style": "scrollbar",
                                             },
                                         }}
                                     >
@@ -417,6 +421,9 @@ const Header = () => {
                                     color: "#000",
                                     textTransform: "none",
                                     fontFamily: "Poppins",
+                                    fontWeight: 500,
+                                    minWidth: "auto", // Allow buttons to be smaller
+                                    px: 2, // Reduced horizontal padding
                                 }}
                             >
                                 {item.name}
@@ -441,7 +448,7 @@ const Header = () => {
                             textTransform: "capitalize",
                             backgroundColor: "black",
                             color: "white",
-                            ml: "auto",
+                            flexShrink: 0, // Prevent button from shrinking
                         }}
                     >
                         Contact Us
@@ -462,25 +469,22 @@ const Header = () => {
                                 maxHeight: '70vh',
                                 overflowY: 'auto',
                                 minWidth: '250px',
-                                // Custom scrollbar styles for WebKit browsers
                                 "&::-webkit-scrollbar": {
-                                    width: "5px", // Very thin scrollbar
+                                    width: "5px",
                                 },
                                 "&::-webkit-scrollbar-track": {
-                                    background: "transparent", // Transparent track
+                                    background: "transparent",
                                 },
                                 "&::-webkit-scrollbar-thumb": {
-                                    background: "rgba(255, 255, 255, 0.15)", // Subtle grey/white thumb on black
+                                    background: "rgba(255, 255, 255, 0.15)",
                                     borderRadius: "10px",
                                 },
                                 "&::-webkit-scrollbar-thumb:hover": {
-                                    background: "rgba(255, 255, 255, 0.3)", // Slightly more visible on hover
+                                    background: "rgba(255, 255, 255, 0.3)",
                                 },
-                                // Custom scrollbar styles for Firefox
-                                "scrollbar-width": "thin", // Makes scrollbar thin
-                                "scrollbar-color": "rgba(255, 255, 255, 0.15) transparent", // thumb and track color for Firefox
-                                // For IE/Edge
-                                "-ms-overflow-style": "scrollbar", // Show scrollbar
+                                "scrollbar-width": "thin",
+                                "scrollbar-color": "rgba(255, 255, 255, 0.15) transparent",
+                                "-ms-overflow-style": "scrollbar",
                             },
                         }}
                     >
@@ -492,9 +496,9 @@ const Header = () => {
                                             fontSize: "1.1rem",
                                             py: 1.5,
                                             "&:hover": { backgroundColor: "rgba(255,255,255,0.1)" },
-                                            display: 'flex', // Enable flexbox
-                                            justifyContent: 'space-between', // Push content to ends
-                                            alignItems: 'center', // Vertical alignment
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'center',
                                         }}>
                                             <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                                 <ListItemIcon>{item.icon}</ListItemIcon>
@@ -541,9 +545,9 @@ const Header = () => {
                                                                 handleMobileMenuClose();
                                                             }}
                                                             sx={{
-                                                                display: 'flex', // Ensure flexbox
-                                                                justifyContent: 'flex-start', // Align left
-                                                                alignItems: 'center', // Vertical align
+                                                                display: 'flex',
+                                                                justifyContent: 'flex-start',
+                                                                alignItems: 'center',
                                                             }}
                                                         >
                                                             <ListItemIcon>{subItem.icon}</ListItemIcon>
@@ -564,9 +568,9 @@ const Header = () => {
                                             fontSize: "1.1rem",
                                             py: 1.5,
                                             "&:hover": { backgroundColor: "rgba(255,255,255,0.1)" },
-                                            display: 'flex', // Ensure flexbox
-                                            justifyContent: 'flex-start', // Align left
-                                            alignItems: 'center', // Vertical align
+                                            display: 'flex',
+                                            justifyContent: 'flex-start',
+                                            alignItems: 'center',
                                         }}
                                     >
                                         <ListItemIcon>{item.icon}</ListItemIcon>
