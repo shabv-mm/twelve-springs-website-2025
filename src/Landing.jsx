@@ -125,7 +125,7 @@ const Landing = () => {
                 }}
             >
                 {/* Left Section - Form */}
-                <Grid item xs={12} md={5}> {/* UPDATED: Changed md from 5.5 to 5 */}
+                <Grid item xs={12} md={4.5}> {/* UPDATED: Changed md from 5 to 4.5 */}
                     <Box
                         component="form"
                         onSubmit={handleSubmit(onSubmit)}
@@ -274,7 +274,7 @@ const Landing = () => {
                 </Grid>
 
                 {/* Right Section - Calendly Widget */}
-                <Grid item xs={12} md={6}> {/* UPDATED: Changed md from 5.5 to 6 */}
+                <Grid item xs={12} md={6.4}> {/* UPDATED: Changed md from 6 to 6.5 */}
                     <Paper
                         sx={{
                             p: { xs: 2, sm: 3, md: 4 },

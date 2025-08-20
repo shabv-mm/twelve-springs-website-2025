@@ -16,7 +16,7 @@ import { Divider, ListItemText, ListItemIcon, Collapse } from "@mui/material";
 // Import MUI Icons
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined"; // Added Home icon
 import WbIncandescentOutlinedIcon from "@mui/icons-material/WbIncandescentOutlined";
 import CodeOutlinedIcon from "@mui/icons-material/CodeOutlined";
 import DnsOutlinedIcon from "@mui/icons-material/DnsOutlined";
@@ -272,7 +272,7 @@ const Header = () => {
                 backgroundSize: "100% 200vh",
                 color: "#000",
                 boxShadow: "none",
-                px: { xs: 2, md: 2, lg: 10 },
+                px: { xs: 2, md: 4, lg: 10 }, // Increased md padding
                 py: 2,
             }}
         >
@@ -281,9 +281,9 @@ const Header = () => {
                 sx={{
                     display: "flex",
                     flexDirection: { xs: "column", md: "row" },
-                    justifyContent: { md: "flex-start", lg: "flex-start" }, // Changed from center to flex-start
+                    justifyContent: { xs: "flex-start", md: "space-between" },
                     alignItems: { xs: "stretch", md: "center" },
-                    gap: { md: 1, lg: 8 }, // Reduced gap from 15 to 8
+                    gap: { xs: 0, md: 2, lg: 4 }, // Added gap for md and lg
                     flexWrap: "wrap",
                 }}
             >
@@ -294,7 +294,7 @@ const Header = () => {
                         justifyContent: "space-between",
                         alignItems: "center",
                         width: { xs: "100%", md: "auto" },
-                        ml: { xs: 0, md: 0, lg: 4 }, // Add left margin ONLY for large screens
+                        // Removed ml for lg here, relying on Toolbar's px and gap
                     }}
                 >
                     <Box component={RouterLink} to="/">
@@ -317,12 +317,12 @@ const Header = () => {
                 <Box
                     sx={{
                         display: { xs: "none", md: "flex" },
-                        flex: 1, // Changed from flexGrow: 1 to flex: 1
-                        justifyContent: "flex-start", // Changed from space-evenly to flex-start
-                        gap: 1, // Reduced gap from 2 to 1
+                        flexGrow: 1,
+                        justifyContent: "center", // Centered on desktop
+                        gap: { md: 1, lg: 2 }, // Gap between individual menu items
                         alignItems: "center",
-                        ml: { lg: 2 }, // Add left margin for better spacing
-                        minWidth: 0, // Prevent flex item from growing too large
+                        minWidth: 0, // Ensures content shrinks if needed
+                        // Removed mr for lg here, relying on Toolbar's px and gap
                     }}
                     onMouseLeave={handleMenuClose}
                 >
@@ -338,8 +338,8 @@ const Header = () => {
                                             textTransform: "none",
                                             fontFamily: "Poppins",
                                             fontWeight: 500,
-                                            minWidth: "auto", // Allow buttons to be smaller
-                                            px: 2, // Reduced horizontal padding
+                                            minWidth: "auto",
+                                            px: 2,
                                         }}
                                         endIcon={<ExpandMoreIcon />}
                                     >
@@ -422,8 +422,8 @@ const Header = () => {
                                     textTransform: "none",
                                     fontFamily: "Poppins",
                                     fontWeight: 500,
-                                    minWidth: "auto", // Allow buttons to be smaller
-                                    px: 2, // Reduced horizontal padding
+                                    minWidth: "auto",
+                                    px: 2,
                                 }}
                             >
                                 {item.name}
