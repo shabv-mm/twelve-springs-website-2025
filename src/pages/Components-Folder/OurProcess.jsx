@@ -8,7 +8,7 @@ import {
   CardContent,
   Container,
 } from "@mui/material";
-import process2 from "../../assets/process2.svg";
+import process2 from "../../assets/proc1.png";
 import aboutus1 from "../../assets/aboutus1.svg";
 import decor1 from "../../assets/decor1.svg";
 import decor2 from "../../assets/decor2.svg";
