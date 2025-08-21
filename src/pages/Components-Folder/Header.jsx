@@ -16,7 +16,7 @@ import { Divider, ListItemText, ListItemIcon, Collapse } from "@mui/material";
 // Import MUI Icons
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined"; // Added Home icon
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import WbIncandescentOutlinedIcon from "@mui/icons-material/WbIncandescentOutlined";
 import CodeOutlinedIcon from "@mui/icons-material/CodeOutlined";
 import DnsOutlinedIcon from "@mui/icons-material/DnsOutlined";
@@ -58,7 +58,7 @@ const Logo = styled("img")({
     width: "170px",
 });
 
-const NestedMenuItem = ({ parent, onClose }) => {
+const NestedMenuItem = ({ parent, onClose,navigate }) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     const handleOpen = (event) => {
@@ -71,7 +71,17 @@ const NestedMenuItem = ({ parent, onClose }) => {
 
     return (
         <>
-            <MenuItem onClick={handleOpen}>
+            <MenuItem 
+                onClick={handleOpen}
+                sx={{
+                    fontSize: "1rem",
+                    py: 1.5,
+                    "&:hover": {
+                        background: "linear-gradient(120deg, #00cbcc, #00bbdf)",
+                        color: "#fff",
+                    }
+                }}
+            >
                 <ListItemText>{parent.name}</ListItemText>
                 <ChevronRightIcon />
             </MenuItem>
@@ -92,39 +102,40 @@ const NestedMenuItem = ({ parent, onClose }) => {
                         backgroundColor: "#000",
                         color: "#fff",
                         borderRadius: "0",
-                        maxHeight: '70vh', // Set a max height for nested dropdowns
-                        overflowY: 'auto', // Allow scrolling if content overflows
-                        // Custom scrollbar styles for WebKit browsers
+                        minWidth: "300px", // Fixed width for consistency
+                        maxHeight: '70vh',
+                        overflowY: 'auto',
                         "&::-webkit-scrollbar": {
-                            width: "5px", // Very thin scrollbar
+                            width: "5px",
                         },
                         "&::-webkit-scrollbar-track": {
-                            background: "transparent", // Transparent track
+                            background: "transparent",
                         },
                         "&::-webkit-scrollbar-thumb": {
-                            background: "rgba(255, 255, 255, 0.15)", // Subtle grey/white thumb on black
+                            background: "rgba(255, 255, 255, 0.15)",
                             borderRadius: "10px",
                         },
                         "&::-webkit-scrollbar-thumb:hover": {
-                            background: "rgba(255, 255, 255, 0.3)", // Slightly more visible on hover
+                            background: "rgba(255, 255, 255, 0.3)",
                         },
-                        // Custom scrollbar styles for Firefox
-                        "scrollbar-width": "thin", // Makes scrollbar thin
-                        "scrollbar-color": "rgba(255, 255, 255, 0.15) transparent", // thumb and track color for Firefox
-                        // For IE/Edge
-                        "-ms-overflow-style": "scrollbar", // Show scrollbar
+                        "scrollbar-width": "thin",
+                        "scrollbar-color": "rgba(255, 255, 255, 0.15) transparent",
+                        "-ms-overflow-style": "scrollbar",
                     },
                 }}
             >
                 {parent.nestedItems.map((item) => (
                     <MenuItem
                         key={item}
-                        onClick={onClose}
+                        onClick={() => {
+                            navigate('/#technologies');
+                            onClose();
+                        }}
                         sx={{
                             fontSize: "1rem",
                             py: 1.5,
                             "&:hover": {
-                                backgroundColor: "rgba(255, 255, 255, 0.1)",
+                                background: "linear-gradient(120deg, #00cbcc, #00bbdf)",
                             }
                         }}
                     >
@@ -178,18 +189,18 @@ const Header = () => {
             path: "services",
             icon: <WbIncandescentOutlinedIcon />,
             subMenu: [
-                { name: "Machine Learning & AI", link: "/services/ml-ai", icon: <PsychologyOutlinedIcon sx={{ color: "#fff" }} /> },
-                { name: "Data Science Solutions", link: "/services/data-science", icon: <DataObjectOutlinedIcon sx={{ color: "#fff" }} /> },
-                { name: "Cloud Services", link: "/services/cloud", icon: <CloudOutlinedIcon sx={{ color: "#fff" }} /> },
-                { name: "Web Development", link: "/services/web-development", icon: <WebOutlinedIcon sx={{ color: "#fff" }} /> },
-                { name: "API Integration", link: "/services/api-integration", icon: <ApiOutlinedIcon sx={{ color: "#fff" }} /> },
-                { name: "Managed Services", link: "/services/managed-services", icon: <ManageAccountsOutlinedIcon sx={{ color: "#fff" }} /> },
-                { name: "IoT Development", link: "/services/iot-development", icon: <SatelliteAltOutlinedIcon sx={{ color: "#fff" }} /> },
-                { name: "Mobile App Development", link: "/services/mobile-app-development", icon: <PhoneAndroidOutlinedIcon sx={{ color: "#fff" }} /> },
-                { name: "Software Development", link: "/services/software-development", icon: <CodeTwoToneIcon sx={{ color: "#fff" }} /> },
-                { name: "Software Quality Engineering", link: "/services/software-quality", icon: <Search sx={{ color: "#fff" }} /> },
-                { name: "Dedicated Teams", link: "/services/dedicated-teams", icon: <PeopleOutlineOutlinedIcon sx={{ color: "#fff" }} /> },
-                { name: "UI/UX Design", link: "/services/ui-ux", icon: <DesignServicesOutlinedIcon sx={{ color: "#fff" }} /> },
+                { name: "Machine Learning & AI", link: "/#expertise", icon: <PsychologyOutlinedIcon sx={{ color: "#fff" }} /> },
+                { name: "Data Science Solutions", link: "/#expertise", icon: <DataObjectOutlinedIcon sx={{ color: "#fff" }} /> },
+                { name: "Cloud Services", link: "/#expertise", icon: <CloudOutlinedIcon sx={{ color: "#fff" }} /> },
+                { name: "Web Development", link: "/#expertise", icon: <WebOutlinedIcon sx={{ color: "#fff" }} /> },
+                { name: "API Integration", link: "/#expertise", icon: <ApiOutlinedIcon sx={{ color: "#fff" }} /> },
+                { name: "Managed Services", link: "/#expertise", icon: <ManageAccountsOutlinedIcon sx={{ color: "#fff" }} /> },
+                { name: "IoT Development", link: "/#expertise", icon: <SatelliteAltOutlinedIcon sx={{ color: "#fff" }} /> },
+                { name: "Mobile App Development", link: "/#expertise", icon: <PhoneAndroidOutlinedIcon sx={{ color: "#fff" }} /> },
+                { name: "Software Development", link: "/#expertise", icon: <CodeTwoToneIcon sx={{ color: "#fff" }} /> },
+                { name: "Software Quality Engineering", link: "/#expertise", icon: <Search sx={{ color: "#fff" }} /> },
+                { name: "Dedicated Teams", link: "/#expertise", icon: <PeopleOutlineOutlinedIcon sx={{ color: "#fff" }} /> },
+                { name: "UI/UX Design", link: "/#expertise", icon: <DesignServicesOutlinedIcon sx={{ color: "#fff" }} /> },
             ],
         },
         {
@@ -197,18 +208,18 @@ const Header = () => {
             path: "solutions",
             icon: <DnsOutlinedIcon />,
             subMenu: [
-                { name: "e-Learning", link: "/solutions/elearning", icon: <SchoolOutlinedIcon sx={{ color: "#fff" }} /> },
-                { name: "Payment Gateway", link: "/solutions/payment", icon: <PaymentOutlinedIcon sx={{ color: "#fff" }} /> },
-                { name: "Healthcare", link: "/solutions/healthcare", icon: <LocalHospitalOutlinedIcon sx={{ color: "#fff" }} /> },
-                { name: "Automobile", link: "/solutions/automobile", icon: <DirectionsCarFilledOutlinedIcon sx={{ color: "#fff" }} /> },
-                { name: "Logistics / Supply Chain", link: "/solutions/logistics", icon: <LocalShippingOutlinedIcon sx={{ color: "#fff" }} /> },
-                { name: "CRM & Forms", link: "/solutions/crm", icon: <DnsOutlinedIcon sx={{ color: "#fff" }} /> },
-                { name: "Location Based Apps", link: "/solutions/location-apps", icon: <LocationOnOutlinedIcon sx={{ color: "#fff" }} /> },
-                { name: "Booking System", link: "/solutions/booking", icon: <EventOutlinedIcon sx={{ color: "#fff" }} /> },
-                { name: "Real Estate", link: "/solutions/real-estate", icon: <HouseOutlinedIcon sx={{ color: "#fff" }} /> },
-                { name: "Equine Software", link: "/solutions/equine", icon: <SportsScoreOutlinedIcon sx={{ color: "#fff" }} /> },
-                { name: "Social Media Platforms", link: "/solutions/social-media", icon: <PeopleOutlinedIcon sx={{ color: "#fff" }} /> },
-                { name: "Ecommerce & Marketplace", link: "/solutions/ecommerce", icon: <ShoppingCartOutlinedIcon sx={{ color: "#fff" }} /> },
+                { name: "e-Learning", link: "/#solution", icon: <SchoolOutlinedIcon sx={{ color: "#fff" }} /> },
+                { name: "Payment Gateway", link: "/#solution", icon: <PaymentOutlinedIcon sx={{ color: "#fff" }} /> },
+                { name: "Healthcare", link: "/#solution", icon: <LocalHospitalOutlinedIcon sx={{ color: "#fff" }} /> },
+                { name: "Automobile", link: "/#solution", icon: <DirectionsCarFilledOutlinedIcon sx={{ color: "#fff" }} /> },
+                { name: "Logistics / Supply Chain", link: "/#solution", icon: <LocalShippingOutlinedIcon sx={{ color: "#fff" }} /> },
+                { name: "CRM & Forms", link: "/#solution", icon: <DnsOutlinedIcon sx={{ color: "#fff" }} /> },
+                { name: "Location Based Apps", link: "/#solution", icon: <LocationOnOutlinedIcon sx={{ color: "#fff" }} /> },
+                { name: "Booking System", link: "/#solution", icon: <EventOutlinedIcon sx={{ color: "#fff" }} /> },
+                { name: "Real Estate", link: "/#solution", icon: <HouseOutlinedIcon sx={{ color: "#fff" }} /> },
+                { name: "Equine Software", link: "/#solution", icon: <SportsScoreOutlinedIcon sx={{ color: "#fff" }} /> },
+                { name: "Social Media Platforms", link: "/#solution", icon: <PeopleOutlinedIcon sx={{ color: "#fff" }} /> },
+                { name: "Ecommerce & Marketplace", link: "/#solution", icon: <ShoppingCartOutlinedIcon sx={{ color: "#fff" }} /> },
             ],
         },
         {
@@ -272,7 +283,7 @@ const Header = () => {
                 backgroundSize: "100% 200vh",
                 color: "#000",
                 boxShadow: "none",
-                px: { xs: 2, md: 4, lg: 10 }, // Increased md padding
+                px: { xs: 2, md: 4, lg: 10 },
                 py: 2,
             }}
         >
@@ -283,7 +294,7 @@ const Header = () => {
                     flexDirection: { xs: "column", md: "row" },
                     justifyContent: { xs: "flex-start", md: "space-between" },
                     alignItems: { xs: "stretch", md: "center" },
-                    gap: { xs: 0, md: 2, lg: 4 }, // Added gap for md and lg
+                    gap: { xs: 0, md: 2, lg: 4 },
                     flexWrap: "wrap",
                 }}
             >
@@ -294,7 +305,6 @@ const Header = () => {
                         justifyContent: "space-between",
                         alignItems: "center",
                         width: { xs: "100%", md: "auto" },
-                        // Removed ml for lg here, relying on Toolbar's px and gap
                     }}
                 >
                     <Box component={RouterLink} to="/">
@@ -318,11 +328,10 @@ const Header = () => {
                     sx={{
                         display: { xs: "none", md: "flex" },
                         flexGrow: 1,
-                        justifyContent: "center", // Centered on desktop
-                        gap: { md: 1, lg: 2 }, // Gap between individual menu items
+                        justifyContent: "center",
+                        gap: { md: 1, lg: 2 },
                         alignItems: "center",
-                        minWidth: 0, // Ensures content shrinks if needed
-                        // Removed mr for lg here, relying on Toolbar's px and gap
+                        minWidth: 0,
                     }}
                     onMouseLeave={handleMenuClose}
                 >
@@ -340,6 +349,10 @@ const Header = () => {
                                             fontWeight: 500,
                                             minWidth: "auto",
                                             px: 2,
+                                            "&:hover": {
+                                                background: "linear-gradient(120deg, #00cbcc, #00bbdf)",
+                                                color: "#fff",
+                                            }
                                         }}
                                         endIcon={<ExpandMoreIcon />}
                                     >
@@ -360,6 +373,7 @@ const Header = () => {
                                                 backgroundColor: "#000",
                                                 color: "#fff",
                                                 borderRadius: 0,
+                                                minWidth: "300px", // Fixed width for consistency
                                                 maxHeight: '70vh',
                                                 overflowY: 'auto',
                                                 "&::-webkit-scrollbar": {
@@ -387,6 +401,7 @@ const Header = () => {
                                                     key={subItem.name}
                                                     parent={subItem}
                                                     onClose={handleMenuClose}
+                                                    navigate={navigate}
                                                 />
                                             ))
                                         ) : (
@@ -400,7 +415,9 @@ const Header = () => {
                                                     sx={{
                                                         fontSize: "1rem",
                                                         py: 1.5,
-                                                        "&:hover": { backgroundColor: "rgba(255,255,255,0.1)" },
+                                                        "&:hover": { 
+                                                            background: "linear-gradient(120deg, #00cbcc, #00bbdf)",
+                                                        },
                                                     }}
                                                 >
                                                     <ListItemIcon>{subItem.icon}</ListItemIcon>
@@ -424,6 +441,10 @@ const Header = () => {
                                     fontWeight: 500,
                                     minWidth: "auto",
                                     px: 2,
+                                    "&:hover": {
+                                        background: "linear-gradient(120deg, #00cbcc, #00bbdf)",
+                                        color: "#fff",
+                                    }
                                 }}
                             >
                                 {item.name}
@@ -448,7 +469,10 @@ const Header = () => {
                             textTransform: "capitalize",
                             backgroundColor: "black",
                             color: "white",
-                            flexShrink: 0, // Prevent button from shrinking
+                            flexShrink: 0,
+                            "&:hover": {
+                                background: "linear-gradient(120deg, #00cbcc, #00bbdf)",
+                            }
                         }}
                     >
                         Contact Us
@@ -492,14 +516,19 @@ const Header = () => {
                             <React.Fragment key={item.name}>
                                 {item.subMenu ? (
                                     <Box>
-                                        <MenuItem onClick={() => handleMobileSubMenuToggle(item.name)} sx={{
-                                            fontSize: "1.1rem",
-                                            py: 1.5,
-                                            "&:hover": { backgroundColor: "rgba(255,255,255,0.1)" },
-                                            display: 'flex',
-                                            justifyContent: 'space-between',
-                                            alignItems: 'center',
-                                        }}>
+                                        <MenuItem 
+                                            onClick={() => handleMobileSubMenuToggle(item.name)} 
+                                            sx={{
+                                                fontSize: "1.1rem",
+                                                py: 1.5,
+                                                "&:hover": { 
+                                                    background: "linear-gradient(120deg, #00cbcc, #00bbdf)",
+                                                },
+                                                display: 'flex',
+                                                justifyContent: 'space-between',
+                                                alignItems: 'center',
+                                            }}
+                                        >
                                             <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                                 <ListItemIcon>{item.icon}</ListItemIcon>
                                                 <ListItemText>{item.name}</ListItemText>
@@ -511,14 +540,19 @@ const Header = () => {
                                                 {item.name === "Technologies" ? (
                                                     item.subMenu.map((subItem) => (
                                                         <Box key={subItem.name}>
-                                                            <MenuItem onClick={() => handleMobileSubMenuToggle(subItem.name)} sx={{
-                                                                fontSize: "1rem",
-                                                                py: 1.5,
-                                                                "&:hover": { backgroundColor: "rgba(255,255,255,0.1)" },
-                                                                display: 'flex',
-                                                                justifyContent: 'space-between',
-                                                                alignItems: 'center',
-                                                            }}>
+                                                            <MenuItem 
+                                                                onClick={() => handleMobileSubMenuToggle(subItem.name)} 
+                                                                sx={{
+                                                                    fontSize: "1rem",
+                                                                    py: 1.5,
+                                                                    "&:hover": { 
+                                                                        background: "linear-gradient(120deg, #00cbcc, #00bbdf)",
+                                                                    },
+                                                                    display: 'flex',
+                                                                    justifyContent: 'space-between',
+                                                                    alignItems: 'center',
+                                                                }}
+                                                            >
                                                                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                                                     <ListItemIcon>{subItem.icon}</ListItemIcon>
                                                                     <ListItemText>{subItem.name}</ListItemText>
@@ -528,7 +562,18 @@ const Header = () => {
                                                             <Collapse in={openMobileSubMenu[subItem.name]}>
                                                                 <Box sx={{ pl: 6 }}>
                                                                     {subItem.nestedItems.map((nestedItem) => (
-                                                                        <MenuItem key={nestedItem} onClick={handleMobileMenuClose}>
+                                                                        <MenuItem 
+                                                                            key={nestedItem} 
+                                                                            onClick={() => {
+                                                                                navigate('/technologies');
+                                                                                handleMobileMenuClose();
+                                                                            }}
+                                                                            sx={{
+                                                                                "&:hover": { 
+                                                                                    background: "linear-gradient(120deg, #00cbcc, #00bbdf)",
+                                                                                },
+                                                                            }}
+                                                                        >
                                                                             <ListItemText>{nestedItem}</ListItemText>
                                                                         </MenuItem>
                                                                     ))}
@@ -548,6 +593,9 @@ const Header = () => {
                                                                 display: 'flex',
                                                                 justifyContent: 'flex-start',
                                                                 alignItems: 'center',
+                                                                "&:hover": { 
+                                                                    background: "linear-gradient(120deg, #00cbcc, #00bbdf)",
+                                                                },
                                                             }}
                                                         >
                                                             <ListItemIcon>{subItem.icon}</ListItemIcon>
@@ -567,7 +615,9 @@ const Header = () => {
                                         sx={{
                                             fontSize: "1.1rem",
                                             py: 1.5,
-                                            "&:hover": { backgroundColor: "rgba(255,255,255,0.1)" },
+                                            "&:hover": { 
+                                                background: "linear-gradient(120deg, #00cbcc, #00bbdf)",
+                                            },
                                             display: 'flex',
                                             justifyContent: 'flex-start',
                                             alignItems: 'center',
@@ -597,6 +647,9 @@ const Header = () => {
                                     textTransform: "capitalize",
                                     backgroundColor: "black",
                                     color: "white",
+                                    "&:hover": {
+                                        background: "linear-gradient(120deg, #00cbcc, #00bbdf)",
+                                    }
                                 }}
                             >
                                 Contact Us
