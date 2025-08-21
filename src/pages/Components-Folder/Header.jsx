@@ -264,7 +264,7 @@ const Header = () => {
                 },
             ],
         },
-        { name: "Products", link: "/#testimonials", icon: <HandshakeOutlinedIcon /> },
+        { name: "Case Studies", link: "/#case-study", icon: <HandshakeOutlinedIcon /> },
         { name: "Company", link: "/#aboutus", icon: <GroupsOutlinedIcon /> },
     ];
 

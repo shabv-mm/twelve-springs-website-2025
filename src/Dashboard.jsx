@@ -56,7 +56,7 @@ function Dashboard() {
         <Box id="testimonials">
           <Testimonials />
         </Box>
-        <Box id="contactus">
+        <Box id="case-study">
           <Contactus />
         </Box>
       </Box>
