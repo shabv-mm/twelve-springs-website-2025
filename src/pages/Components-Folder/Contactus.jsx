@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Container,
@@ -33,12 +33,11 @@ const caseStudies = [
   {
     id: 1,
     title: "Unified Platform for Recycling & Liquidation Operations",
-    company: "Global Recycling Solutions Inc.",
     industry: "Recycling & Liquidation",
     duration: "8 months",
     description: "A U.S.-based recycling and liquidation company needed a centralized system to streamline its global operations involving shipments, vendors, and customers.",
-    challenge: "The business relied on multiple databases and manual processes, creating inefficiencies, data silos, and limited visibility across logistics and customer engagement.",
-    solution: "We delivered a web and mobile platform built with Spring Boot, PostgreSQL, and Flutter, integrating shipment lifecycle management, vendor and customer hubs, CRM, and a custom calendar system. With Google Maps integration and secure multi-user access, the company now operates on a centralised, scalable, and efficient platform.",
+    challenge: ["The business relied on multiple databases and manual processes, creating inefficiencies, data silos, and limited visibility across logistics and customer engagement."],
+    solution: ["We delivered a web and mobile platform built with Spring Boot, PostgreSQL, and Flutter, integrating shipment lifecycle management, vendor and customer hubs, CRM, and a custom calendar system. With Google Maps integration and secure multi-user access, the company now operates on a centralised, scalable, and efficient platform."],
     technologies: ["Java", "Spring Boot", "PostgreSQL", "Flutter"],
     headerGradient: "linear-gradient(135deg, #e3f2fd 0%, #bbdefb 50%, #90caf9 100%)",
     testimonial: {
@@ -51,7 +50,6 @@ const caseStudies = [
   {
     id: 2,
     title: "AI-Powered Fintech Platform for Accounting Process Management",
-    company: "Leading Accounting Firm",
     industry: "Fintech & Accounting",
     duration: "9 months",
     description: "We partnered with a leading accounting firm to build a robust fintech platform that centralizes client management, task tracking, and financial data analysis. The platform enables accountants and their clients to collaborate seamlessly through secure logins, discussion channels, document sharing, and advanced reporting features.",
@@ -81,12 +79,11 @@ const caseStudies = [
   {
     id: 3,
     title: "Unified Platform for Recycling & Liquidation Operations",
-    company: "Orange Logistics Corp.",
     industry: "Supply Chain",
     duration: "6 months",
     description: "A supply chain company needed a centralized system to streamline its global operations involving shipments, vendors, and customers.",
-    challenge: "The business relied on multiple databases and manual processes, creating inefficiencies, data silos, and limited visibility across logistics and customer engagement.",
-    solution: "We delivered a web and mobile platform built with Spring Boot, PostgreSQL, and Flutter, integrating shipment lifecycle management, vendor and customer hubs, CRM, and a custom calendar system. With Google Maps integration and secure multi-user access, the company now operates on a centralised, scalable, and efficient platform.",
+    challenge: ["The business relied on multiple databases and manual processes, creating inefficiencies, data silos, and limited visibility across logistics and customer engagement."],
+    solution: ["We delivered a web and mobile platform built with Spring Boot, PostgreSQL, and Flutter, integrating shipment lifecycle management, vendor and customer hubs, CRM, and a custom calendar system. With Google Maps integration and secure multi-user access, the company now operates on a centralised, scalable, and efficient platform."],
     technologies: ["Python", "Django", "Redis", "Docker"],
     headerGradient: "linear-gradient(135deg, #fff3e0 0%, #ffe0b2 50%, #ffcc80 100%)",
     testimonial: {
@@ -99,12 +96,11 @@ const caseStudies = [
   {
     id: 4,
     title: "Unified Platform for Recycling & Liquidation Operations",
-    company: "TechFlow Solutions Inc.",
     industry: "Software Development",
     duration: "12 months",
     description: "A software development company needed a centralized system to streamline its global operations involving shipments, vendors, and customers.",
-    challenge: "The business relied on multiple databases and manual processes, creating inefficiencies, data silos, and limited visibility across logistics and customer engagement.",
-    solution: "We delivered a web and mobile platform built with Spring Boot, PostgreSQL, and Flutter, integrating shipment lifecycle management, vendor and customer hubs, CRM, and a custom calendar system. With Google Maps integration and secure multi-user access, the company now operates on a centralised, scalable, and efficient platform.",
+    challenge: ["The business relied on multiple databases and manual processes, creating inefficiencies, data silos, and limited visibility across logistics and customer engagement."],
+    solution: ["We delivered a web and mobile platform built with Spring Boot, PostgreSQL, and Flutter, integrating shipment lifecycle management, vendor and customer hubs, CRM, and a custom calendar system. With Google Maps integration and secure multi-user access, the company now operates on a centralised, scalable, and efficient platform."],
     technologies: ["Vue.js", "Laravel", "MySQL", "Kubernetes"],
     headerGradient: "linear-gradient(135deg, #f3e5f5 0%, #e1bee7 50%, #ce93d8 100%)",
     testimonial: {
@@ -122,16 +118,16 @@ export default function CaseStudyCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
 
-  // Auto-slide functionality
-  React.useEffect(() => {
-    if (isHovered) return; // Pause when hovered
+  // // Auto-slide functionality
+  // React.useEffect(() => {
+  //   if (isHovered) return; // Pause when hovered
 
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % caseStudies.length);
-    }, 3000); // Auto-slide every 3 seconds
+  //   const interval = setInterval(() => {
+  //     setCurrentIndex((prev) => (prev + 1) % caseStudies.length);
+  //   }, 3000); // Auto-slide every 3 seconds
 
-    return () => clearInterval(interval);
-  }, [isHovered]);
+  //   return () => clearInterval(interval);
+  // }, [isHovered]);
 
   const handlePrevious = () => {
     setCurrentIndex((prev) => (prev - 1 + caseStudies.length) % caseStudies.length);
@@ -187,29 +183,58 @@ export default function CaseStudyCarousel() {
         alignItems: "center",
       }}
     >
-      <Container maxWidth="md">
+      <Container maxWidth="xl">
         {/* Header */}
         <Box textAlign="center" mb={4}>
+        <Typography
+        sx={{
+          fontWeight: "500",
+          fontSize: { xs: 15, sm: 20 },
+          fontFamily: "poppins",
+          lineHeight: "30px",
+          textTransform: "uppercase",
+          color: "#00a1ff",
+          mb: 1,
+          // mt: { md: 10, xs: 3 },
+        }}
+      >
+        case studies
+      </Typography>
+      <Typography
+        sx={{
+          fontWeight: "400",
+          fontSize: { md: 48, xs: 30 },
+          fontFamily: "poppins",
+          //   lineHeight: "67.2px",
+          mb: 1,
+        }}
+      >
+        <span
+          style={{
+            fontWeight: "100",
+            // fontSize: { md: 48, xs: 30 },
+            fontFamily: "poppins",
+            // lineHeight: "67.2px",
+          }}
+        >
+          Success{" "}
+        </span>
+        Stories
+      </Typography>
+  
           <Typography
-            variant="h4"
-            sx={{
-              fontWeight: 600,
-              color: "#334155",
-              mb: 1,
-            }}
-          >
-            Success Stories
-          </Typography>
-          <Typography
-            variant="body1"
-            sx={{
-              color: "#64748b",
-              maxWidth: 600,
-              mx: "auto",
-            }}
-          >
-            Discover how we transform businesses with innovative solutions
-          </Typography>
+          sx={{
+            mb: { sm: 2, xs: 1 },
+            fontWeight: "300",
+            fontSize: { xs: 15, sm: 20 },
+            fontFamily: "poppins",
+            textAlign: "center"
+            //   lineHeight: "30px",
+            //   mx: { md: 48, xs: 3 },
+          }}
+        >
+                      Discover how we transform businesses with innovative solutions
+        </Typography>
         </Box>
 
         {/* Carousel Container */}
@@ -266,7 +291,8 @@ export default function CaseStudyCarousel() {
           {/* Main Card */}
           <Card
             sx={{
-              maxWidth: 700,
+              maxWidth: { xs: '75%', sm: '65%', md: '70%', lg: '900px',xl:'1150px' },
+              // width: '100%',
               mx: "auto",
               borderRadius: 4,
               overflow: "hidden",
@@ -331,7 +357,7 @@ export default function CaseStudyCarousel() {
                       }}
                     />
                     <Typography variant="body2" sx={{ color: "#4a5568", fontSize: "0.85rem", fontWeight: 500 }}>
-                      {currentCase.company} • {currentCase.duration}
+                       Duration : {currentCase.duration}
                     </Typography>
                   </Box>
                 </Box>
@@ -475,26 +501,8 @@ export default function CaseStudyCarousel() {
                 </Box>
               </Paper>
 
-              {/* CTA Section */}
-              <Paper
-                elevation={0}
-                sx={{
-                  p: 3,
-                  bgcolor: "#f8fafc",
-                  border: "1px solid #e2e8f0",
-                  borderRadius: 2,
-                  textAlign: "center",
-                }}
-              >
-                <Box sx={{ mb: 2 }}>
-                  <CalendarMonth sx={{ fontSize: 32, color: "#64748b", mb: 1 }} />
-                  <Typography variant="h6" sx={{ fontWeight: 600, color: "#1e293b", mb: 0.5 }}>
-                    Ready to Transform Your Business?
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: "#64748b" }}>
-                    Schedule a free 30-minute discovery call to discuss your goals
-                  </Typography>
-                </Box>
+        
+            
                 <Button
                   variant="contained"
                   size="large"
@@ -520,7 +528,6 @@ export default function CaseStudyCarousel() {
                 >
                   Schedule Free Call
                 </Button>
-              </Paper>
             </CardContent>
           </Card>
         </Box>
