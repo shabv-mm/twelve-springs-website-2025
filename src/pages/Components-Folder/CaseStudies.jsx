@@ -112,7 +112,7 @@ const caseStudies = [
   },
 ];
 
-export default function CaseStudyCarousel() {
+export default function CaseStudies() {
   const navigate = useNavigate();
   const theme = useTheme();
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -198,7 +198,7 @@ export default function CaseStudyCarousel() {
           // mt: { md: 10, xs: 3 },
         }}
       >
-        case studies
+    recent case studies
       </Typography>
       <Typography
         sx={{
@@ -344,18 +344,32 @@ export default function CaseStudyCarousel() {
                     <TrendingUp sx={{ fontSize: 26 }} />
                   </Avatar>
                   <Box>
-                    <Chip
-                      label={currentCase.industry}
-                      size="small"
-                      sx={{
-                        bgcolor: "rgba(45, 55, 72, 0.1)",
-                        color: "#2d3748",
-                        fontWeight: 600,
-                        mb: 0.5,
-                        fontSize: "0.75rem",
-                        border: "1px solid rgba(45, 55, 72, 0.15)",
-                      }}
-                    />
+                  <Chip
+  label={currentCase.industry}
+  size="small"
+  sx={{
+    ...(currentIndex === 1
+      ? {
+          // backgroundImage: "linear-gradient(120deg, #00cbcc, #00bbdf)",
+          backgroundColor:'rgb(49, 156, 228)',
+          color: "white",
+          fontWeight: 600,
+          mb: 0.5,
+          fontSize: "0.75rem",
+          border: "none",
+          boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
+        }
+      : {
+          bgcolor: "rgba(45, 55, 72, 0.1)",
+          color: "#2d3748",
+          fontWeight: 600,
+          mb: 0.5,
+          fontSize: "0.75rem",
+          border: "1px solid rgba(45, 55, 72, 0.15)",
+        }),
+  }}
+/>
+
                     <Typography variant="body2" sx={{ color: "#4a5568", fontSize: "0.85rem", fontWeight: 500 }}>
                        Duration : {currentCase.duration}
                     </Typography>

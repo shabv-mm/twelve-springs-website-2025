@@ -8,11 +8,13 @@ import Aboutus from "./pages/Components-Folder/Aboutus";
 import OurProcess from "./pages/Components-Folder/OurProcess";
 import LatestArticles from "./pages/Components-Folder/LatestArticles";
 import Testimonials from "./pages/Components-Folder/Testimonials";
-import Contactus from "./pages/Components-Folder/Contactus";
+import Contactus from "./pages/Components-Folder/CaseStudies";
 import Footer from "./pages/Components-Folder/Footer";
 import "./index.css";
 import Header from "./pages/Components-Folder/Header";
 import ScrollToTopButton from "./pages/Components-Folder/ScrollToBottom";
+import CaseStudy from "./pages/Components-Folder/CaseStudies";
+import CaseStudies from "./pages/Components-Folder/CaseStudies";
 
 function Dashboard() {
   return (
@@ -57,7 +59,7 @@ function Dashboard() {
           <Testimonials />
         </Box>
         <Box id="case-study">
-          <Contactus />
+          <CaseStudies/>
         </Box>
       </Box>
       <Footer />

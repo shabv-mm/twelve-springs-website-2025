@@ -23,10 +23,6 @@ import api from "./lib/api";
 import Footer from "./pages/Components-Folder/Footer"; // Assuming Footer is correctly imported and available
 import Header from "./pages/Components-Folder/Header";
 
-// You will need to import your actual Header component here
-// For example:
-// import Header from "./pages/Components-Folder/Header";
-
 const Landing = () => {
   const [recaptchaValue, setRecaptchaValue] = useState(null);
   const { openToast } = useContext(StoreContext);
@@ -104,11 +100,7 @@ const Landing = () => {
         flexDirection: "column", // Ensure content flows vertically
       }}
     >
-      {/* Existing Header Component will go here */}
-      {/* <Header /> */}
-            {/* Replace this img tag with your actual Header component */}
-            {/* <img src={mainlogoImg} style={{ height: "50px" }} alt="Twelve Springs Logo" /> */}
-            <Header/>
+      <Header/> {/* Your actual Header component */}
 
       <Container maxWidth="lg" sx={{ flexGrow: 1, py: 4 }}> {/* Use Container for main content, flexGrow to push footer down */}
         <Paper
@@ -119,18 +111,19 @@ const Landing = () => {
             bgcolor: 'white',
             boxShadow: '0 10px 30px rgba(0,0,0,0.05)',
             mb: 4, // Add margin bottom to separate from footer
-            overflow: 'hidden' // Ensure no overflow from Calendly iframe
+            // Removed maxHeight and overflowY: 'auto' to allow full content display
+            overflowX: 'hidden', // Prevent horizontal scrolling
           }}
         >
           <Grid
             container
             spacing={4}
             sx={{
-              alignItems: 'stretch',
+              alignItems: 'stretch', // Keep stretch to make columns equal height within the Paper
             }}
           >
             {/* Left Section - Form */}
-            <Grid item xs={12} md={4.5}>
+            <Grid item xs={12} md={5.5}> {/* Adjusted to 5.5 for 50/50 split */}
               <Box
                 component="form"
                 onSubmit={handleSubmit(onSubmit)}
@@ -138,10 +131,9 @@ const Landing = () => {
                   display: "flex",
                   flexDirection: "column",
                   gap: 3,
-                  height: '100%', // Ensure form takes full height
                 }}
               >
-                <Typography variant="h4" fontWeight="600" sx={{ mb: 1, color: "#1e293b" }}>
+                <Typography variant="h5" fontWeight="600" sx={{ mb: 1, color: "#1e293b" }}>
                   Your Path to Clarity Starts Here
                 </Typography>
                 <Typography variant="body1" sx={{ mb: 2, color: "#64748b" }}>
@@ -254,7 +246,7 @@ const Landing = () => {
                     borderTopWidth: '1.5px'
                   }
                 }}>
-                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                  <Typography variant="h6" sx={{ color: '#00cbcc', fontWeight: 700 }}>
                     OR
                   </Typography>
                 </Divider>
@@ -272,7 +264,7 @@ const Landing = () => {
                     }
                   }}
                 >
-                  <Typography variant="body2" sx={{ transform: 'rotate(90deg)', color: '#00cbcc', fontWeight: 600 }}>
+                  <Typography variant="h6" sx={{ transform: 'rotate(90deg)', color: '#00cbcc', fontWeight: 700 }}>
                     OR
                   </Typography>
                 </Divider>
@@ -280,15 +272,13 @@ const Landing = () => {
             </Grid>
 
             {/* Right Section - Calendly Widget */}
-            <Grid item xs={12} md={6.5}> {/* Adjusted md from 6.4 to 6.5 */}
+            <Grid item xs={12} md={5.5}> {/* Adjusted to 5.5 for 50/50 split */}
               <Paper
-                elevation={0} // Removed extra shadow as it's within a Paper already
+                elevation={0}
                 sx={{
                   p: { xs: 2, sm: 3, md: 4 },
                   borderRadius: 2,
-                  // boxShadow: 3, // Already handled by parent Paper
                   bgcolor: 'white',
-                  height: '100%', // Ensure it stretches to match form height
                   overflow: 'hidden',
                 }}
               >
@@ -309,7 +299,6 @@ const Landing = () => {
           </Grid>
         </Paper>
       </Container>
-      {/* The Footer component must be inside the main component's return block */}
       <Footer />
     </Box>
   );
