@@ -398,9 +398,9 @@ const Header = () => {
               px: 3,
               py: 1,
               fontWeight: 400,
-              fontSize: { md: "10px", lg: "16px" },
+              fontSize: { md: "8px", lg: "14px" },
               fontFamily: "Poppins",
-              lineHeight: "24px",
+              lineHeight: "20px",
               textTransform: "capitalize",
               // Apply gradient if on the landing page, else black background
               background: isContactPageActive ? "linear-gradient(120deg, #00cbcc, #00bbdf)" : "black",
@@ -413,7 +413,7 @@ const Header = () => {
               },
             }}
           >
-            Contact Us
+            Talk to Architect
           </Button>
         )}
 

@@ -14,8 +14,10 @@ import aboutus1 from "../../assets/aboutus1.svg";
 import decor1 from "../../assets/decor1.svg";
 import decor2 from "../../assets/decor2.svg";
 import { Link } from "react-scroll";
+import { useNavigate } from "react-router-dom";
 
 const Aboutus = () => {
+  const navigate = useNavigate();
   return (
     <div style={{ display: "flex", flexDirection: "column", paddingTop: 26 }}>
       <Container>
@@ -131,6 +133,7 @@ const Aboutus = () => {
               </Typography>
               <Link to="contactus" smooth={true} duration={1000}>
                 <Button
+                  onClick={() => navigate("/landing")}
                   variant="contained"
                   sx={{
                     mt: { xs: 0, sm: 2 },
@@ -146,6 +149,10 @@ const Aboutus = () => {
                     lineHeight: "24px",
                     textTransform: "capitalize",
                     backgroundColor: "black",
+                    "&:hover": {
+                      background: "linear-gradient(120deg, #00cbcc, #00bbdf)",
+                      color: "#fff",
+                    },
                   }}
                   endIcon={
                     <img
@@ -312,6 +319,7 @@ const Aboutus = () => {
               </Typography>
               <Link to="contactus" smooth={true} duration={1000}>
                 <Button
+                  onClick={() => navigate("/landing")}
                   variant="contained"
                   sx={{
                     mt: 2,
@@ -509,7 +517,7 @@ const Aboutus = () => {
                 fontFamily: "poppins",
                 lineHeight: "24px",
                 textTransform: "capitalize",
-                backgroundColor: "#00cbcc",
+                backgroundColor: " #00cbcc",
               }}
               endIcon={
                 <img

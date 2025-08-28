@@ -14,6 +14,7 @@ import page1 from "../../assets/page1_3.svg";
 import decor1 from "../../assets/decor1.svg";
 import decor2 from "../../assets/decor2.svg";
 import { Link } from "react-scroll";
+import { useNavigate } from "react-router-dom";
 import "./intro.css";
 
 const textOptions = [
@@ -100,6 +101,7 @@ const AnimatedText = () => {
 };
 
 const Intro = () => {
+  const navigate = useNavigate();
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const [currentTextIndex2, setCurrentTextIndex2] = useState(0);
 
@@ -182,6 +184,7 @@ const Intro = () => {
           </Box>
           <Link to="contactus" smooth={true} duration={1000}>
             <Button
+            onClick={() => navigate("/landing")}
               variant="contained"
               sx={{
                 mt: { xs: 3, sm: 5 },
@@ -198,9 +201,9 @@ const Intro = () => {
                 lineHeight: "24px",
                 textTransform: "capitalize",
                 backgroundColor: "black",
-                ":hover": {
-                  backgroundColor: "",
-                  color: "white",
+                "&:hover": {
+                  background: "linear-gradient(120deg, #00cbcc, #00bbdf)",
+                  color: "#fff",
                 },
               }}
               endIcon={<img src={buttonImg} alt='get in touch' style={{ marginLeft: 5 }}></img>}
