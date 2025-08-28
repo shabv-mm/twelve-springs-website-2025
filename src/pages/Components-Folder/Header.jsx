@@ -10,7 +10,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import { useNavigate, Link as RouterLink, useLocation } from "react-router-dom"; // Import useLocation
+import { useNavigate, Link as RouterLink, useLocation } from "react-router-dom";
 import { Divider, ListItemText, ListItemIcon, Collapse } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -57,9 +57,11 @@ const Logo = styled("img")({
 
 const NestedMenuItem = ({ parent, onClose, navigate }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  
   const handleOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
+  
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -67,7 +69,7 @@ const NestedMenuItem = ({ parent, onClose, navigate }) => {
   return (
     <>
       <MenuItem
-        onClick={handleOpen}
+        onMouseEnter={handleOpen}
         sx={{
           fontSize: "1rem",
           py: 1.5,
@@ -84,6 +86,10 @@ const NestedMenuItem = ({ parent, onClose, navigate }) => {
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleClose}
+        MenuListProps={{
+          onMouseEnter: () => setAnchorEl(anchorEl),
+          onMouseLeave: handleClose,
+        }}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
         transformOrigin={{ vertical: "top", horizontal: "left" }}
         sx={{
@@ -108,9 +114,9 @@ const NestedMenuItem = ({ parent, onClose, navigate }) => {
           <MenuItem
             key={item}
             onClick={() => {
-              navigate('/#technologies'); // Assuming all nested items navigate to #technologies for simplicity
-              onClose(); // Close parent menu
-              handleClose(); // Close nested menu
+              navigate('/#technologies');
+              onClose();
+              handleClose();
             }}
             sx={{
               fontSize: "1rem",
@@ -131,31 +137,34 @@ const NestedMenuItem = ({ parent, onClose, navigate }) => {
 const Header = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const location = useLocation(); // Initialize useLocation
+  const location = useLocation();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileAnchorEl, setMobileAnchorEl] = React.useState(null);
   const [openMenu, setOpenMenu] = React.useState(null);
   const [openMobileSubMenu, setOpenMobileSubMenu] = useState({});
 
-  // Check if the current path is /landing for the "Contact Us" button
   const isContactPageActive = location.pathname === '/landing';
 
   const handleMenuOpen = (menuName) => (event) => {
     setAnchorEl(event.currentTarget);
     setOpenMenu(menuName);
   };
+
   const handleMenuClose = () => {
     setAnchorEl(null);
     setOpenMenu(null);
   };
+
   const handleMobileMenuOpen = (event) => {
     setMobileAnchorEl(event.currentTarget);
   };
+
   const handleMobileMenuClose = () => {
     setMobileAnchorEl(null);
     setOpenMobileSubMenu({});
   };
+
   const handleMobileSubMenuToggle = (name) => {
     setOpenMobileSubMenu(prevState => ({ ...prevState, [name]: !prevState[name], }));
   };
@@ -287,7 +296,6 @@ const Header = () => {
             alignItems: "center",
             minWidth: 0,
           }}
-          onMouseLeave={handleMenuClose}
         >
           {menuItems.map((item) => {
             if (item.subMenu) {
@@ -295,7 +303,6 @@ const Header = () => {
                 <Box key={item.name}>
                   <Button
                     onMouseEnter={handleMenuOpen(item.name)}
-                    onClick={handleMenuOpen(item.name)}
                     sx={{
                       color: "#000",
                       textTransform: "none",
@@ -316,7 +323,9 @@ const Header = () => {
                     anchorEl={anchorEl}
                     open={openMenu === item.name}
                     onClose={handleMenuClose}
-                    MenuListProps={{ onMouseEnter: () => setOpenMenu(item.name), onMouseLeave: handleMenuClose, }}
+                    MenuListProps={{
+                      onMouseLeave: handleMenuClose,
+                    }}
                     anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
                     transformOrigin={{ vertical: "top", horizontal: "left" }}
                     sx={{
@@ -402,13 +411,11 @@ const Header = () => {
               fontFamily: "Poppins",
               lineHeight: "20px",
               textTransform: "capitalize",
-              // Apply gradient if on the landing page, else black background
               background: isContactPageActive ? "linear-gradient(120deg, #00cbcc, #00bbdf)" : "black",
               color: "white",
               flexShrink: 0,
               "&:hover": {
-                background: "linear-gradient(120deg, #00cbcc, #00bbdf)", // Always gradient on hover
-                // If already active, a subtle visual change for hover
+                background: "linear-gradient(120deg, #00cbcc, #00bbdf)",
                 opacity: isContactPageActive ? 0.9 : 1, 
               },
             }}
@@ -492,7 +499,7 @@ const Header = () => {
                                 {subItem.nestedItems.map((nestedItem) => (
                                   <MenuItem
                                     key={nestedItem}
-                                    onClick={() => { navigate('/technologies'); handleMobileMenuClose() }} // Assuming all nested items navigate to /technologies
+                                    onClick={() => { navigate('/technologies'); handleMobileMenuClose() }}
                                     sx={{
                                       "&:hover": {
                                         background: "linear-gradient(120deg, #00cbcc, #00bbdf)",
@@ -558,11 +565,10 @@ const Header = () => {
                   fontFamily: "Poppins",
                   lineHeight: "24px",
                   textTransform: "capitalize",
-                  // Apply gradient if on the landing page, else black background
                   background: isContactPageActive ? "linear-gradient(120deg, #00cbcc, #00bbdf)" : "black",
                   color: "white",
                   "&:hover": {
-                    background: "linear-gradient(120deg, #00cbcc, #00bbdf)", // Always gradient on hover
+                    background: "linear-gradient(120deg, #00cbcc, #00bbdf)",
                     opacity: isContactPageActive ? 0.9 : 1,
                   },
                 }}

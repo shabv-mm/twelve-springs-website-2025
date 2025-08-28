@@ -89,7 +89,7 @@ function BulletList({ items }) {
           sx={{ listStyle: "none", display: "flex", gap: 1.25, alignItems: "start" }}
         >
           <CheckCircle sx={{ fontSize: 16, mt: "2px" }} />
-          <Typography variant="body2" sx={{ lineHeight: 1.6 }}>
+          <Typography variant="body2" sx={{ lineHeight: 1.6, fontFamily: "poppins" }}>
             {t}
           </Typography>
         </Box>
@@ -127,23 +127,52 @@ export default function CaseStudies() {
     <Box sx={{ py: { xs: 6, md: 8 } }}>
       <Container maxWidth="lg">
         <Stack spacing={1.2} alignItems="center" mb={{ xs: 3, md: 5 }}>
-          <Typography
-            sx={{
-              letterSpacing: 2,
-              textTransform: "uppercase",
-              fontSize: 12,
-              color: "text.secondary",
-            }}
-          >
-            Case studies
-          </Typography>
-          <Typography variant="h4" sx={{ fontWeight: 700, textAlign: "center" }}>
-            Success Stories
-          </Typography>
-          <Typography
-            variant="body1"
-            sx={{ color: "text.secondary", textAlign: "center", maxWidth: 720 }}
-          >
+        <Typography
+        sx={{
+          fontWeight: "500",
+          fontSize: { xs: 15, sm: 20 },
+          fontFamily: "poppins",
+          lineHeight: "30px",
+          textTransform: "uppercase",
+          color: "#00a1ff",
+          mb: 1,
+          // mt: { md: 10, xs: 3 },
+        }}
+      >
+        Case Studies
+      </Typography>
+      <Typography
+        sx={{
+          fontWeight: "400",
+          fontSize: { md: 48, xs: 30 },
+          fontFamily: "poppins",
+          //   lineHeight: "67.2px",
+          mb: 1,
+        }}
+      >
+        <span
+          style={{
+            fontWeight: "100",
+            // fontSize: { md: 48, xs: 30 },
+            fontFamily: "poppins",
+            // lineHeight: "67.2px",
+          }}
+        >
+          Success{" "}
+        </span>
+        Stories
+      </Typography>
+      <Typography
+          sx={{
+            mb: { sm: 2, xs: 1 },
+            fontWeight: "300",
+            fontSize: { xs: 15, sm: 20 },
+            fontFamily: "poppins",
+            textAlign: "center"
+            //   lineHeight: "30px",
+            //   mx: { md: 48, xs: 3 },
+          }}
+        >
             Discover how we transform businesses with focused, scalable solutions.
           </Typography>
         </Stack>
@@ -216,7 +245,7 @@ export default function CaseStudies() {
                 spacing={1.5}
                 mb={2}
               >
-                <Typography variant="h5" sx={{ fontWeight: 700 }}>
+                <Typography variant="h5" sx={{ fontWeight: 700, fontFamily: "poppins" }}>
                   {current.title}
                 </Typography>
                 <Stack direction="row" spacing={1} flexWrap="wrap">
@@ -234,7 +263,7 @@ export default function CaseStudies() {
                 </Stack>
               </Stack>
 
-              <Typography variant="body1" sx={{ color: "text.secondary", mb: 3 }}>
+              <Typography variant="body1" sx={{ color: "text.secondary", mb: 3, fontFamily: "poppins" }}>
                 {current.description}
               </Typography>
 
@@ -244,14 +273,14 @@ export default function CaseStudies() {
                 mb={3}
               >
                 <Box sx={{ flex: 1 }}>
-                  <Typography variant="subtitle2" sx={{ mb: 1 }}>
+                  <Typography variant="subtitle2" sx={{ mb: 1, fontFamily: "poppins" }}>
                     Challenge
                   </Typography>
                   <BulletList items={current.challenge} />
                 </Box>
                 <Divider flexItem orientation="vertical" sx={{ display: { xs: "none", md: "block" } }} />
                 <Box sx={{ flex: 1 }}>
-                  <Typography variant="subtitle2" sx={{ mb: 1 }}>
+                  <Typography variant="subtitle2" sx={{ mb: 1, fontFamily: "poppins" }}>
                     Solution
                   </Typography>
                   <BulletList items={current.solution} />
@@ -259,7 +288,7 @@ export default function CaseStudies() {
               </Stack>
 
               <Stack spacing={1}>
-                <Typography variant="subtitle2">Technologies</Typography>
+                <Typography variant="subtitle2" sx={{ fontFamily: "poppins" }}>Technologies</Typography>
                 <Stack direction="row" spacing={1} flexWrap="wrap">
                   {current.technologies.map((t) => (
                     <Chip
@@ -290,50 +319,70 @@ export default function CaseStudies() {
                 <Stack direction="row" spacing={1.5} alignItems="center">
                   <Avatar sx={{ width: 36, height: 36 }}>{current.testimonial.avatar}</Avatar>
                   <Box sx={{ minWidth: 0 }}>
-                    <Typography variant="body2" sx={{ fontStyle: "italic" }}>
+                    <Typography variant="body2" sx={{ fontStyle: "italic", fontFamily: "poppins" }}>
                       "{current.testimonial.text}"
                     </Typography>
-                    <Typography variant="caption" color="text.secondary">
+                    <Typography variant="caption" color="text.secondary" sx={{ fontFamily: "poppins" }}>
                       {current.testimonial.author} • {current.testimonial.position}
                     </Typography>
                   </Box>
                 </Stack>
               </Box>
 
-              <Stack direction={{ xs: "column", sm: "row" }} spacing={1.5} mt={3}>
+              {/* Centered button with header styling */}
+              <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
                 <Button
                   variant="contained"
                   onClick={() => navigate("/landing")}
                   endIcon={<Launch />}
-                  sx={{ textTransform: "none", fontWeight: 600, backgroundImage: "linear-gradient(120deg, #00cbcc, #00bbdf)",
+                  sx={{ 
+                    textTransform: "none", 
+                    fontWeight: 500,
+                    fontFamily: "poppins",
+                    background: "black",
+                    color: "white",
+                    px: 3,
+                    py: 1,
+                    borderRadius: 0,
+                    "&:hover": {
+                      background: "linear-gradient(120deg, #00cbcc, #00bbdf)",
+                      color: "#fff",
+                    },
                   }}
                 >
                   Talk to an Architect
                 </Button>
-
-                <Stack direction="row" spacing={1} alignItems="center" sx={{ ml: { sm: "auto" } }}>
-                  {caseStudies.map((_, i) => (
-                    <Box
-                      key={i}
-                      onClick={() => setIndex(i)}
-                      role="button"
-                      aria-label={`Go to slide ${i + 1}`}
-                      tabIndex={0}
-                      onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && setIndex(i)}
-                      sx={{
-                        width: i === index ? 24 : 8,
-                        height: 8,
-                        borderRadius: 999,
-                        bgcolor: i === index ? "text.primary" : "divider",
-                        cursor: "pointer",
-                        transition: "all .25s ease",
-                      }}
-                    />
-                  ))}
-                </Stack>
-              </Stack>
+              </Box>
             </CardContent>
           </Card>
+
+          {/* Navigation dots positioned below the card */}
+          <Stack 
+            direction="row" 
+            spacing={1} 
+            alignItems="center" 
+            justifyContent="center"
+            sx={{ mt: 3 }}
+          >
+            {caseStudies.map((_, i) => (
+              <Box
+                key={i}
+                onClick={() => setIndex(i)}
+                role="button"
+                aria-label={`Go to slide ${i + 1}`}
+                tabIndex={0}
+                onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && setIndex(i)}
+                sx={{
+                  width: i === index ? 24 : 8,
+                  height: 8,
+                  borderRadius: 999,
+                  bgcolor: i === index ? "text.primary" : "divider",
+                  cursor: "pointer",
+                  transition: "all .25s ease",
+                }}
+              />
+            ))}
+          </Stack>
         </Box>
       </Container>
     </Box>
