@@ -49,9 +49,7 @@ function Dashboard() {
         <Box id="aboutus">
           <Aboutus />
         </Box>
-        <Box id="ourprocess">
-          <OurProcess />
-        </Box>
+      
         {/*<div id="blog">
           <LatestArticles />
         </div>*/}
@@ -60,6 +58,9 @@ function Dashboard() {
         </Box>
         <Box id="case-study">
           <CaseStudies/>
+        </Box>
+        <Box id="ourprocess">
+          <OurProcess />
         </Box>
       </Box>
       <Footer />
