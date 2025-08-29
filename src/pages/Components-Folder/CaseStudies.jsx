@@ -70,7 +70,7 @@ const caseStudies = [
     headerGradient:
       "linear-gradient(90deg, rgba(0,153,255,.25), rgba(0,205,255,.25))",
     testimonial: {
-      text: "The new platform is a game-changer. It has streamlined our workflows and given us an AI advantage.",
+      text: "Partnering with Twelve Springs has been an excellent experience. The platform they delivered for our client has been a real game-changer—streamlining workflows and boosting efficiency. Our client is extremely happy with the results so far, and with Phase 2 (AI) now underway, we’re confident it will deliver even greater advantages.",
       author: "Managing Director",
       position: "Founder",
       avatar: "DA",
