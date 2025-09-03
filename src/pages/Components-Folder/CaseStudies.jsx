@@ -80,7 +80,7 @@ const caseStudies = [
   id: 3,
   title: "Real-Time Data Streaming with Apache Kafka",
   industry: "Data Engineering & Analytics",
-  duration: "6 months",
+  duration: "2 months",
   description:
     "A confidential client needed a high-performance streaming platform to process large volumes of real-time data across multiple systems. We designed and implemented a Kafka-based event streaming solution, connecting Java Spring Boot producers and Python consumers into a centralized data lake. From there, the data was transformed and made available for advanced analytics, empowering the client with near real-time insights.",
   challenge: [
