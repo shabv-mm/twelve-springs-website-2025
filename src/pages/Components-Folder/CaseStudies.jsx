@@ -76,6 +76,35 @@ const caseStudies = [
       avatar: "DA",
     },
   },
+  {
+  id: 3,
+  title: "Real-Time Data Streaming with Apache Kafka",
+  industry: "Data Engineering & Analytics",
+  duration: "6 months",
+  description:
+    "A confidential client needed a high-performance streaming platform to process large volumes of real-time data across multiple systems. We designed and implemented a Kafka-based event streaming solution, connecting Java Spring Boot producers and Python consumers into a centralized data lake. From there, the data was transformed and made available for advanced analytics, empowering the client with near real-time insights.",
+  challenge: [
+    "The client struggled to ingest and process large numbers of events per day in real-time.",
+    "Existing pipelines lacked scalability and fault tolerance across heterogeneous systems.",
+    "They required an on-premises, bare-metal deployment due to security and compliance restrictions.",
+    "Data needed to be stored centrally and transformed into analytics-ready formats."
+  ],
+  solution: [
+    "Set up and configured Apache Kafka on bare-metal servers for maximum performance and reliability.",
+    "Developed Java Spring Boot producers to publish events from multiple upstream systems.",
+    "Built Python consumers to process Kafka streams and ingest data into a secure data lake.",
+    "Integrated ETL pipelines to transform raw data into analytics-ready structures for dashboards and reporting."
+  ],
+  technologies: ["Apache Kafka", "Java", "Spring Boot", "Python", "Data Lake"],
+  headerGradient:
+    "linear-gradient(90deg, rgba(255,138,101,.25), rgba(255,202,40,.25))",
+  testimonial: {
+    text: "The engagement resulted in a scalable event streaming platform capable of processing large numbers of daily events and delivering near real-time insights for analytics.",
+    author: "Project Outcome",
+    position: "Confidential Client",
+    avatar: "PO"
+  }
+}
 ];
 
 function BulletList({ items }) {
